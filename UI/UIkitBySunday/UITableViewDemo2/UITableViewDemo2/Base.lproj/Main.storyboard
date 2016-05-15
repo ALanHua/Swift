@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="UITableViewDemo2" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VJx-u3-qrQ">
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem title="Insert" id="K07-Qe-5N9">
+                                        <connections>
+                                            <action selector="insertButtonClick:" destination="BYZ-38-t0r" id="dPm-A3-37c"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="211" style="plain" systemItem="fixedSpace" id="bcx-OT-QdC"/>
+                                    <barButtonItem title="Edit" id="ZWY-0Q-1WR">
+                                        <connections>
+                                            <action selector="editButtonClick:" destination="BYZ-38-t0r" id="Em3-2Q-bbA"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="NdX-kz-nQk">
+                                <rect key="frame" x="0.0" y="64" width="600" height="492"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="NdX-kz-nQk" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="LZd-LF-O37"/>
+                            <constraint firstItem="NdX-kz-nQk" firstAttribute="leading" secondItem="VJx-u3-qrQ" secondAttribute="leading" id="TIQ-aV-pU7"/>
+                            <constraint firstAttribute="trailing" secondItem="NdX-kz-nQk" secondAttribute="trailing" id="dpX-Sb-kP7"/>
+                            <constraint firstItem="VJx-u3-qrQ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="ds5-rO-m74"/>
+                            <constraint firstItem="VJx-u3-qrQ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="jlo-JX-bqk"/>
+                            <constraint firstItem="NdX-kz-nQk" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="20" id="lfh-lb-75F"/>
+                            <constraint firstItem="NdX-kz-nQk" firstAttribute="top" secondItem="VJx-u3-qrQ" secondAttribute="bottom" id="mxG-de-Gyj"/>
+                            <constraint firstItem="VJx-u3-qrQ" firstAttribute="trailing" secondItem="NdX-kz-nQk" secondAttribute="trailing" id="nDB-48-feX"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="lfh-lb-75F"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="tableView1" destination="NdX-kz-nQk" id="pfq-WZ-g4Z"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="255" y="314"/>
+        </scene>
+    </scenes>
+</document>

@@ -1,0 +1,19 @@
+一，UI
+1.Control事件
+    //第一类
+    touch down
+    touch down repeat
+    touch drag outside
+    touch drag inside
+    touch drag enter
+    touch dray exit
+    touch up inside
+    touch up outside
+    touch cancel
+    //第二类
+    value changed//
+    //第三类
+    edit changed
+    edit did begin
+    edit did end
+    did edit on exit
