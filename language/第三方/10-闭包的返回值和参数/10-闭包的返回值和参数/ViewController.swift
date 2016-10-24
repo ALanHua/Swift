@@ -8,21 +8,24 @@
 
 import UIKit
 
-class ViewController: UIViewController {
 
+import UIKit
+
+class ViewController: UIViewController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let sc = createScrollView(btnCount: { () -> Int in
-                return 5
-            }) { (index) -> UIView in
-                let width = 80
-                let btn = UIButton();
-                // 3,设置UIButton的属性
-                btn.backgroundColor = UIColor.blue
-                btn.setTitle("标题\(index)", for: UIControlState.normal)
-                btn.frame = CGRect(x: index*width, y: 0, width: width, height: 44)
-                // 4,将UIButton 添加到UIScrollview上
-                return btn
+            return 5
+        }) { (index) -> UIView in
+            let width = 80
+            let btn = UIButton();
+            // 3,设置UIButton的属性
+            btn.backgroundColor = UIColor.blue
+            btn.setTitle("标题\(index)", for: UIControlState.normal)
+            btn.frame = CGRect(x: index*width, y: 0, width: width, height: 44)
+            // 4,将UIButton 添加到UIScrollview上
+            return btn
         }
         view.addSubview(sc)
     }
@@ -42,6 +45,7 @@ class ViewController: UIViewController {
         }
         return sc
     }
- 
+    
 }
+
 
