@@ -77,6 +77,33 @@ if let actualNumber = Int(possibleNumber){
 }else{
     print("\"\(possibleNumber)\"  could not be converted to be a integer")
 }
+/// 多可选值绑定
+if let firstNumber = Int("4"),let secondNumber = Int("42"),firstNumber < secondNumber && secondNumber < 100 {
+    print("\(firstNumber) < \(secondNumber) < 100")
+}
+/// 含蓄无包装选配
+let possibleString: String? = "An optional String"
+/// 强制解包
+let forcedString: String = possibleString!
+let assumedString: String! = "An implicitly unwrapped optional string."
+let implicitString: String = assumedString
+
+if let definiteString = assumedString {
+    print(definiteString)
+}
+/// 错误处理
+func canThrowAnError() throws {
+    
+}
+
+do {
+    try canThrowAnError()
+} catch  {
+    
+}
+/// 断言
+let age = 4
+assert(age >= 0, "A person's age can not less than zero")// 条件不成立就会触发
 
 
 
