@@ -98,7 +98,61 @@ let exclamationMark : Character = "!"
 let catCharcters : [Character] = ["C", "a", "t", "!", "🐱"]
 let catString = String(catCharcters)
 print(catString)
-
-
+// concaternating string and character
+let string1 = "hello world"
+let string2 = " there"
+var welcome = string1 + string2
+var instruction = "look over"
+instruction += string2
+welcome.append(exclamationMark)
+// String Interpolation
+let multiplier = 3
+let message = "\(multiplier) times 2.5 is \(Double(multiplier) * 2.5)"
+// Unicode
+/*
+ 字符串中的特殊字符
+ -----\0: 空字符
+ -----\\: 反斜杠
+ -----\t: 水平制表符
+ -----\n: 换行
+ -----\r: 回车
+ -----\": 双引号
+ -----\‘: 单引号
+ -----\{N}: 进制
+ */
+let wiseWords = "\" Imagination is more important than knowledge\"  - Einstein"
+let dollarSign = "\u{24}"
+let blackHeart = "\u{2665}"
+let eAcute: Character = "\u{E9}"
+let combineEacute: Character = "\u{65}\u{301}"
+// Counting Characters
+let unusualMenagerie = "Koala 🐨, Snail 🐌, Penguin 🐧, Dromedary 🐪"
+print("unusalMenagerie has \(unusualMenagerie.characters.count) characters")
+var word = "cafe"
+print("the number of characters in \(word) is \(word.characters.count)")
+word += "\u{301}"
+print("the number of characters in \(word) is \(word.characters.count)")
+//Accessing and Modifying a String
+let greeting = "Guten Tag!"
+greeting.endIndex
+greeting.startIndex
+greeting.characters.count
+greeting[greeting.startIndex]
+greeting[greeting.index(before: greeting.endIndex)]
+greeting[greeting.index(after: greeting.startIndex)]
+let index = greeting.index(greeting.startIndex, offsetBy: 7)
+greeting[index]
+// 遍历字符串已字符输出
+for index in greeting.characters.indices {
+    print("\(greeting[index])",terminator:" ")
+}
+welcome.insert("!", at: welcome.endIndex)
+welcome.insert(contentsOf: " swift".characters, at: welcome.index(before: welcome.endIndex))
+// 移除数据
+welcome.remove(at: welcome.index(before: welcome.endIndex))
+welcome
+let range = welcome.index(welcome.endIndex, offsetBy: -6)..<welcome.endIndex
+welcome.removeSubrange(range)
+welcome
 
 
