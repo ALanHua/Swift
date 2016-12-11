@@ -154,5 +154,63 @@ welcome
 let range = welcome.index(welcome.endIndex, offsetBy: -6)..<welcome.endIndex
 welcome.removeSubrange(range)
 welcome
+//Comparing Strings
+/*
+ 字符串比较不匹配语言环境
+ */
+let quotation = "We're a lot alike, you and I."
+let sameQuotaton = "We're a lot alike, you and I."
+if quotation == sameQuotaton {
+    print("These two string are considered equal")
+}
+
+let eAcuteQuestion = "Voulez-vous un caf\u{E9}?"
+let combinedEAcuteQuestion = "Voulez-vous un caf\u{65}\u{301}?"
+if eAcuteQuestion == combinedEAcuteQuestion {
+    print("These two strings are considered equal")
+}
+
+let romeoAndJuliet = [
+    "Act 1 Scene 1: Verona, A public place",
+    "Act 1 Scene 2: Capulet's mansion",
+    "Act 1 Scene 3: A room in Capulet's mansion",
+    "Act 1 Scene 4: A street outside Capulet's mansion",
+    "Act 1 Scene 5: The Great Hall in Capulet's mansion",
+    "Act 2 Scene 1: Outside Capulet's mansion",
+    "Act 2 Scene 2: Capulet's orchard",
+    "Act 2 Scene 3: Outside Friar Lawrence's cell",
+    "Act 2 Scene 4: A street in Verona",
+    "Act 2 Scene 5: Capulet's mansion",
+    "Act 2 Scene 6: Friar Lawrence's cell"
+]
+var act1SceneCount = 0
+var mansionCount = 0
+var cellCount = 0
+for scene in romeoAndJuliet {
+    if scene.hasPrefix("Act 1") {
+        act1SceneCount += 1
+    }else if scene.hasSuffix("Capulet's mansion"){
+        mansionCount += 1
+    }else if scene.hasSuffix("Friar Lawrence's cell"){
+        cellCount += 1
+    }
+}
+print("There are \(act1SceneCount) scene in Act 1 \(mansionCount) mansion scenes; \(cellCount) cell scenes")
+// Unicode
+let dogString = "Dog‼🐶"
+for codeUnit in dogString.utf8 {
+    print("\(codeUnit) ",terminator:" ")
+}
+print("\n")
+
+for codeUnit in dogString.utf16 {
+    print("\(codeUnit) ",terminator:" ")
+}
+print("\n")
+for scalar in dogString.unicodeScalars {
+    print("\(scalar.value) ", terminator: "")
+    print("\(scalar) ")
+}
+
 
 
