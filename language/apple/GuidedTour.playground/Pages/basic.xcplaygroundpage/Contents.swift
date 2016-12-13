@@ -212,5 +212,126 @@ for scalar in dogString.unicodeScalars {
     print("\(scalar) ")
 }
 
+// 集合类型
+/// 数组
+var someInts = [Int]()
+someInts.count
+someInts.append(3)
+someInts = []
+
+var threeDouble = Array(repeatElement(0.0, count: 3))
+var anotherThreeDouble = Array(repeatElement(2.5, count: 3))
+var sixDoubles = threeDouble + anotherThreeDouble
+
+var shoppingList : [String] = ["Eggs","Milk"]
+///ar shoppingList = ["Eggs","Milk"]
+shoppingList.count
+if shoppingList.isEmpty {
+    print("The shpping list is empty")
+}else {
+    print("The shooping list is not empty")
+}
+shoppingList.append("Flour")
+shoppingList += ["Baking Powder"]
+
+var firstItem = shoppingList[0]
+shoppingList[0] = "Six eggs"
+shoppingList[1...2] = ["apple","banana"]
+shoppingList.insert("Aaple syrup", at: 0)
+shoppingList.remove(at: 0)
+let apples = shoppingList.removeLast()
+
+for item in shoppingList {
+    print(item)
+}
+/// 迭代
+for (index,value) in shoppingList.enumerated(){
+    print("Item \(index + 1):\(value)")
+}
+/// 集合
+var letters = Set<Character>()
+letters.count
+letters.insert("a")
+letters.insert("b")
+letters = []
+var favouriteGenres : Set<String> = ["Rock", "Classical", "Hip hop"]
+favouriteGenres.count
+if favouriteGenres.isEmpty {
+    print("As far as music goes,I'm not picky")
+}else {
+    print("I have particular music preferences.")
+}
+favouriteGenres.insert("Jazz")
+/// 可能没有
+if let removedGenre = favouriteGenres.remove("Rock") {
+    print("\(removedGenre)? I'm over it.")
+}else {
+    print("I never much cared for that.")
+}
+
+if favouriteGenres.contains("Funk") {
+    print("I get up on the good foot.")
+}else {
+    print("It's too funky in here.")
+}
+/// 遍历
+for genre in favouriteGenres.sorted() {
+    print("\(genre)")
+}
+/// 集合运算
+let oddDigits : Set = [1,3,5,7,9]
+let evenDigits : Set = [0,2,4,6,8]
+let singleDigitPrimeNumbers : Set = [2,3,5,7]
+// 全集
+oddDigits.union(evenDigits).sorted()
+// 交集
+oddDigits.intersection(evenDigits).sorted()
+// 差集
+oddDigits.subtracting(singleDigitPrimeNumbers)
+// 交集的补集
+oddDigits.symmetricDifference(singleDigitPrimeNumbers)
+
+let houseAnimals: Set = ["🐶", "🐱"]
+let farmAnimals: Set = ["🐮", "🐔", "🐑", "🐶", "🐱"]
+let cityAnimals: Set = ["🐦", "🐭"]
+// 判断是否是子集
+houseAnimals.isSubset(of: farmAnimals)
+farmAnimals.isSuperset(of: houseAnimals)
+farmAnimals.isDisjoint(with: cityAnimals)
+
+/// 字典
+var namesOfIntegers = [Int: String]()
+namesOfIntegers[16] = "sixteen"
+namesOfIntegers = [:]
+var airports = ["YYZ": "Toronto Pearson", "DUB": "Dublin"]
+airports.count
+
+if airports.isEmpty {
+    print("The airports dictionary is empty.")
+}else {
+    print("The airports dictionary is not empty.")
+}
+airports["LHR"] = "london"
+airports["LHR"] = "London Heathrow"
+// 更新字典
+if let oldValue = airports.updateValue("Dublin Airport", forKey: "DUB"){
+    print("The old value for DUB was \(oldValue)")
+}
+// 遍历字典
+for (airportCode,airportName) in airports {
+    print("\(airportCode): \(airportName)")
+}
+// 单独遍历键值
+for airportCode in airports.keys{
+     print("Airport code: \(airportCode)")
+}
+
+for airportName in airports.values{
+    print("Airport name: \(airportName)")
+}
+// 键值数组实例化
+let airportCodes = [String](airports.keys)
+let airportNames = [String](airports.values)
+
 
 
