@@ -333,5 +333,29 @@ for airportName in airports.values{
 let airportCodes = [String](airports.keys)
 let airportNames = [String](airports.values)
 
+// 控制流
+for index in 1...5 {
+    print("\(index) times 5 is \(index * 5)")
+}
+
+let base = 3
+let power = 10
+var answer = 1;
+for  _ in 1...power {
+    answer *= base;
+}
+print("\(base) to the power of \(power) is \(answer)")
+
+// 遍历数组
+let namesArr = ["Anna", "Alex", "Brian", "Jack"]
+for name in namesArr {
+    print("Hello, \(name)!")
+}
+// 遍历字典
+let numberOfLegs = ["spider":8,"ant":6,"cat":4]
+for (animalName,legCount) in numberOfLegs {
+    print("\(animalName)s have \(legCount) legs")
+}
+
 
 
