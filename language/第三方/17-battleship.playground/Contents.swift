@@ -87,3 +87,20 @@ func union(region1:@escaping Region,_ region2:@escaping Region) ->Region{
     return {point in region1(point) || region2(point)}
 }
 
+func difference(region:@escaping Region,minus:@escaping Region)->Region{
+    return intersection(region1: region, invert(region: minus))
+}
+
+extension Ship{
+    func canSafelyEngage(target:Ship,friendly:Ship) -> Bool {
+        let rangeRange = difference(region: circle(redius: 10), minus: circle(redius: unsafedRange))
+        let firingRange = shift(region: rangeRange, offset: position)
+        let friendlyRange = shift(region: circle(redius: unsafedRange), offset: friendly.position)
+        let resultRange = difference(region: firingRange, minus: friendlyRange)
+        return resultRange(target.position)
+    }
+}
+// 上面这一部分暂时还没看懂
+
+
+
