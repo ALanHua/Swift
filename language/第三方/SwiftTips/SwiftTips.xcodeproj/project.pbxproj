@@ -9,19 +9,11 @@
 /* Begin PBXBuildFile section */
 		B892053A1F9F9DC90051B1E5 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89205391F9F9DC90051B1E5 /* main.swift */; };
 		B89205521FA0EB990051B1E5 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89205511FA0EB990051B1E5 /* main.swift */; };
+		B89205911FA77EBD0051B1E5 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89205901FA77EBD0051B1E5 /* main.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		B89205341F9F9DC90051B1E5 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-		B89205421FA0EACA0051B1E5 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -39,14 +31,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		B892058C1FA77EBD0051B1E5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		B89205361F9F9DC90051B1E5 /* SwiftTips */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SwiftTips; sourceTree = BUILT_PRODUCTS_DIR; };
 		B89205391F9F9DC90051B1E5 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		B89205441FA0EACA0051B1E5 /* 02_将 protocol 的方法声明为 mutating  摘录来自: 王巍. */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "02_将 protocol 的方法声明为 mutating  摘录来自: 王巍."; sourceTree = BUILT_PRODUCTS_DIR; };
 		B892054F1FA0EB990051B1E5 /* 02_protocol_mutating */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = 02_protocol_mutating; sourceTree = BUILT_PRODUCTS_DIR; };
 		B89205511FA0EB990051B1E5 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		B892058E1FA77EBD0051B1E5 /* 03_sequence */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = 03_sequence; sourceTree = BUILT_PRODUCTS_DIR; };
+		B89205901FA77EBD0051B1E5 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,14 +59,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B89205411FA0EACA0051B1E5 /* Frameworks */ = {
+		B892054C1FA0EB990051B1E5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B892054C1FA0EB990051B1E5 /* Frameworks */ = {
+		B892058B1FA77EBD0051B1E5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -79,6 +81,7 @@
 			children = (
 				B89205381F9F9DC90051B1E5 /* SwiftTips */,
 				B89205501FA0EB990051B1E5 /* 02_protocol_mutating */,
+				B892058F1FA77EBD0051B1E5 /* 03_sequence */,
 				B89205371F9F9DC90051B1E5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -87,8 +90,8 @@
 			isa = PBXGroup;
 			children = (
 				B89205361F9F9DC90051B1E5 /* SwiftTips */,
-				B89205441FA0EACA0051B1E5 /* 02_将 protocol 的方法声明为 mutating  摘录来自: 王巍. */,
 				B892054F1FA0EB990051B1E5 /* 02_protocol_mutating */,
+				B892058E1FA77EBD0051B1E5 /* 03_sequence */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -107,6 +110,14 @@
 				B89205511FA0EB990051B1E5 /* main.swift */,
 			);
 			path = 02_protocol_mutating;
+			sourceTree = "<group>";
+		};
+		B892058F1FA77EBD0051B1E5 /* 03_sequence */ = {
+			isa = PBXGroup;
+			children = (
+				B89205901FA77EBD0051B1E5 /* main.swift */,
+			);
+			path = 03_sequence;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -129,23 +140,6 @@
 			productReference = B89205361F9F9DC90051B1E5 /* SwiftTips */;
 			productType = "com.apple.product-type.tool";
 		};
-		B89205431FA0EACA0051B1E5 /* 02_将 protocol 的方法声明为 mutating  摘录来自: 王巍. */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B892054A1FA0EACA0051B1E5 /* Build configuration list for PBXNativeTarget "02_将 protocol 的方法声明为 mutating  摘录来自: 王巍." */;
-			buildPhases = (
-				B89205401FA0EACA0051B1E5 /* Sources */,
-				B89205411FA0EACA0051B1E5 /* Frameworks */,
-				B89205421FA0EACA0051B1E5 /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "02_将 protocol 的方法声明为 mutating  摘录来自: 王巍.";
-			productName = "02_将 protocol 的方法声明为 mutating  摘录来自: 王巍.";
-			productReference = B89205441FA0EACA0051B1E5 /* 02_将 protocol 的方法声明为 mutating  摘录来自: 王巍. */;
-			productType = "com.apple.product-type.tool";
-		};
 		B892054E1FA0EB990051B1E5 /* 02_protocol_mutating */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B89205531FA0EB990051B1E5 /* Build configuration list for PBXNativeTarget "02_protocol_mutating" */;
@@ -163,6 +157,23 @@
 			productReference = B892054F1FA0EB990051B1E5 /* 02_protocol_mutating */;
 			productType = "com.apple.product-type.tool";
 		};
+		B892058D1FA77EBD0051B1E5 /* 03_sequence */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B89205921FA77EBD0051B1E5 /* Build configuration list for PBXNativeTarget "03_sequence" */;
+			buildPhases = (
+				B892058A1FA77EBD0051B1E5 /* Sources */,
+				B892058B1FA77EBD0051B1E5 /* Frameworks */,
+				B892058C1FA77EBD0051B1E5 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = 03_sequence;
+			productName = 03_sequence;
+			productReference = B892058E1FA77EBD0051B1E5 /* 03_sequence */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -177,11 +188,11 @@
 						CreatedOnToolsVersion = 9.0.1;
 						ProvisioningStyle = Automatic;
 					};
-					B89205431FA0EACA0051B1E5 = {
+					B892054E1FA0EB990051B1E5 = {
 						CreatedOnToolsVersion = 9.0.1;
 						ProvisioningStyle = Automatic;
 					};
-					B892054E1FA0EB990051B1E5 = {
+					B892058D1FA77EBD0051B1E5 = {
 						CreatedOnToolsVersion = 9.0.1;
 						ProvisioningStyle = Automatic;
 					};
@@ -200,8 +211,8 @@
 			projectRoot = "";
 			targets = (
 				B89205351F9F9DC90051B1E5 /* SwiftTips */,
-				B89205431FA0EACA0051B1E5 /* 02_将 protocol 的方法声明为 mutating  摘录来自: 王巍. */,
 				B892054E1FA0EB990051B1E5 /* 02_protocol_mutating */,
+				B892058D1FA77EBD0051B1E5 /* 03_sequence */,
 			);
 		};
 /* End PBXProject section */
@@ -215,18 +226,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B89205401FA0EACA0051B1E5 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B892054B1FA0EB990051B1E5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				B89205521FA0EB990051B1E5 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B892058A1FA77EBD0051B1E5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B89205911FA77EBD0051B1E5 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,24 +369,6 @@
 			};
 			name = Release;
 		};
-		B89205481FA0EACA0051B1E5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-			};
-			name = Debug;
-		};
-		B89205491FA0EACA0051B1E5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-			};
-			name = Release;
-		};
 		B89205541FA0EB990051B1E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -385,6 +379,24 @@
 			name = Debug;
 		};
 		B89205551FA0EB990051B1E5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		B89205931FA77EBD0051B1E5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		B89205941FA77EBD0051B1E5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -414,20 +426,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B892054A1FA0EACA0051B1E5 /* Build configuration list for PBXNativeTarget "02_将 protocol 的方法声明为 mutating  摘录来自: 王巍." */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B89205481FA0EACA0051B1E5 /* Debug */,
-				B89205491FA0EACA0051B1E5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		B89205531FA0EB990051B1E5 /* Build configuration list for PBXNativeTarget "02_protocol_mutating" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B89205541FA0EB990051B1E5 /* Debug */,
 				B89205551FA0EB990051B1E5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B89205921FA77EBD0051B1E5 /* Build configuration list for PBXNativeTarget "03_sequence" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B89205931FA77EBD0051B1E5 /* Debug */,
+				B89205941FA77EBD0051B1E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
