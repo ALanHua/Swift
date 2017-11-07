@@ -1,0 +1,21 @@
+//
+//  main.swift
+//  20_default_paramter
+//
+//  Created by yhp on 2017/11/7.
+//  Copyright © 2017年 YouHuaPei. All rights reserved.
+//
+
+import Foundation
+
+func sayHello1(str1:String = "Hello",str2:String,str3:String){
+    print(str1 + str2 + str3)
+}
+
+func sayHello2(str1:String,str2:String,str3:String = "World"){
+    print(str1 + str2 + str3)
+}
+
+sayHello1(str2: " ", str3: "World")
+sayHello2(str1: "Any ", str2: "like ")
+
