@@ -23,3 +23,21 @@ if obj is ClassA {
 if obj is ClassB{
     print("属于ClassB")
 }
+
+class MyClas: NSObject {
+    var date = Date()
+}
+
+class MyChildClass: MyClas {
+    @objc dynamic override var date: Date{
+        get{
+            return super.date
+        }
+        set{
+            super.date = Date()
+        }
+    }
+}
+
+
+
