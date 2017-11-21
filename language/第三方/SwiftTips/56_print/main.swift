@@ -23,5 +23,22 @@ extension Double {
 let f = "2"
 print("\(b.format(f))")
 
+struct Meeting {
+    var date: NSDate
+    var place: String
+    var attendeName:String
+}
+extension Meeting:CustomStringConvertible{
+    var description: String{
+        return "于\(self.date)在\(self.place)与\(self.attendeName) 进行会议"
+    }
+}
+
+let meeting = Meeting(date: NSDate(), place: "会议室", attendeName: "小明")
+print(meeting)
+
+
+
+
 
 
