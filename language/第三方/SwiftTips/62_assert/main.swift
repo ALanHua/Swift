@@ -20,3 +20,25 @@ print(roomTemperature)
 
 let tooCold = convertToKelvin(-300)
 print(tooCold)
+
+
+enum MyError {
+    case Value1,Value2,Value3
+}
+func check(someValue:MyError) -> String {
+    switch someValue {
+    case .Value1:
+        return "OK"
+    case .Value2:
+        return "Mybe OK"
+    default:
+        fatalError("Should not show")
+    }
+}
+
+
+
+
+
+
+
