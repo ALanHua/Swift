@@ -310,6 +310,32 @@ let queue2 = Queue(array: array)
 print(queue2)
 
 
+//protocol Flushable {
+//    associatedtype ItemType
+//    mutating func flush(afterNthElementFromFront index: Int) -> [ItemType]
+//}
+//
+//protocol CollectionItemInspectable {
+//    associatedtype ItemType
+//    func placementFromFrontForElement(element: ItemType) -> Int?
+//}
+//
+//extension Queue: Flushable {
+//    typealias ItemType = T
+//    mutating func flush(afterNthElementFromFront index: Int) -> [ItemType] {
+//        let position = items.count - index
+//        let result = Array(items[0..<position])
+//        items[0..<position] = []
+//        return result
+//    }
+//}
+//extension Queue: CollectionItemInspectable {
+////    typealias ItemType = T
+//    func placementFromFrontForElement(element: ItemType) -> Int? {
+//        guard let foundIndex = items.indexOf(element) else { return nil }
+//        return (items.count - 1) - foundIndex
+//    }
+//}
 
 
 
