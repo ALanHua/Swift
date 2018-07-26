@@ -101,11 +101,27 @@ print(incrementByTen())
 // 高阶函数介绍
 //  1.map
 let price = [20,30,40]
-let strs = price.map ({ "$\($0)"})
+let strs = price.map (){ "$\($0)"}
 print(strs)
-
-
-
+// 2,flatMap 方法同 map 方法比较类似，只不过它返回后的数组中不存在 nil（自动把 nil 给剔除掉），同时它会把 Optional 解包。
+let array = ["Apple", "Orange", "Grape", ""]
+let arr1 = array.map { (a) -> Int? in
+    let length = a.count
+    guard length > 0 else{
+        return nil
+    }
+    return length
+}
+print(arr1)
+// MARK: swift 4.x 已经将flatMap这个功能用 compactMap 替换了
+let arr2 = array.compactMap { (a) -> Int? in
+    let length = a.count
+    guard length > 0 else{
+        return nil
+    }
+    return length
+}
+print(arr2)
 
 
 
