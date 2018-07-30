@@ -101,7 +101,7 @@ print(incrementByTen())
 // 高阶函数介绍
 //  1.map
 let price = [20,30,40]
-let strs = price.map (){ "$\($0)"}
+let strs = price.map{ "$\($0)"}
 print(strs)
 // 2,flatMap 方法同 map 方法比较类似，只不过它返回后的数组中不存在 nil（自动把 nil 给剔除掉），同时它会把 Optional 解包。
 let array = ["Apple", "Orange", "Grape", ""]
@@ -122,6 +122,20 @@ let arr2 = array.compactMap { (a) -> Int? in
     return length
 }
 print(arr2)
+// map 函数
+let numbers = [1,2,3,4]
+let result2 = numbers.map { $0 + 2
+}
+print(result2)
+let result3 = numbers.compactMap { $0 + 2
+}
+print(result3)
+
+let numbersCompound = [[1,2,3],[4,5,6]]
+var floatRes = numbersCompound.flatMap { $0.map({ $0 + 2
+})}
+print(floatRes)
+
 
 
 
