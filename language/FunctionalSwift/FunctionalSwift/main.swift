@@ -92,24 +92,73 @@ extension Ship {
     }
     
 }
+// 类似于c语言的函数指针
+typealias Region = (Position) -> Bool
+
+func circle(radius:Distance) -> Region {
+    return {point in point.length <= radius}
+}
+// 闭包简写
+func circle_(radius:Distance) -> Region {
+    return {$0.length <= radius}
+}
+
+func circle(radius:Distance,center:Position) -> Region {
+    return {
+        point in point.minus(p: center).length <= radius
+    }
+}
 
 
+/// 移动区域想右上方移动
+/// - Parameters:
+///   - region: 区域
+///   - offset: 位置偏移
+/// - Returns: 区域
+func shift(region:@escaping Region,offset:Position) -> Region {
+    return {
+        point in region(point.minus(p: offset))
+    }
+}
 
+/// 相当烧脑筋
+let a = shift(region: circle(radius: 10), offset: Position(x: 5, y: 5))
+print(a(Position(x: 12, y: 12)))
 
+func invert(region:@escaping Region) -> Region {
+    return {
+        point in !region(point)
+    }
+}
 
+let b = invert(region: circle(radius: 10))
+print(b(Position(x: 5, y: 5)))
 
+// MARK: 交集
+func intersection(region1:@escaping Region,_ region2:@escaping Region) -> Region {
+    return {
+        point in region1(point) && region2(point)
+    }
+}
 
+let c = intersection(region1: circle(radius: 10), circle(radius: 5))
+print(c(Position(x: 7, y: 7)))
 
+// MARK: 并集
+func union(region1:@escaping Region,_ region2:@escaping Region) -> Region {
+    return {
+        point in region1(point) || region2(point)
+    }
+}
 
+let d = union(region1: circle(radius: 10), circle(radius: 5))
+print(d(Position(x: 7, y: 7)))
 
+func difference(region:@escaping Region,minus: @escaping Region) -> Region {
+    return intersection(region1: region, invert(region: minus))
+}
 
-
-
-
-
-
-
-
-
+let e = difference(region: circle(radius: 10), minus: circle(radius: 5))
+print(e(Position(x: 7, y: 7)))
 
 
