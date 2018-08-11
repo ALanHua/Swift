@@ -162,3 +162,20 @@ let e = difference(region: circle(radius: 10), minus: circle(radius: 5))
 print(e(Position(x: 7, y: 7)))
 
 
+extension Ship {
+    // MARK:代码这样一写马上你就晕啦 下面的代码已经将问题抽象化啦，目前暂时还有有点晕
+    func canSafelyEngageShip3(target:Ship,friendly:Ship) -> Bool {
+        //  MARK: 计算是不是在两个区域的差集 在firingRange里 不在 unsafeRange
+        let rangeRegion = difference(region: circle(radius: firingRange), minus: circle(radius: unsafeRange))
+        // 向右上方移动position位置
+        let firingRegion = shift(region: rangeRegion, offset: position)
+        let friendlyRegion = shift(region: circle(radius: unsafeRange), offset: friendly.position)
+        //  在开火区域，但地方不在友方不在非安全区域
+        let resulrRegion = difference(region: firingRegion, minus: friendlyRegion)
+        return resulrRegion(target.position)
+    }
+}
+
+
+
+
