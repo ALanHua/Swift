@@ -88,6 +88,80 @@ switch madridPopulation3 {
     case .none:print("Unknown")
 }
 // guard 关键值用法如上
+// 可选映射
+func incrementOptional(optional:Int?) -> Int? {
+    guard let x = optional else {
+        return nil
+    }
+    return x + 1
+}
+
+extension Optional {
+    func map<U>(transform:(Wrapped)->U ) -> U? {
+        guard let x = self else {
+            return nil
+        }
+        return transform(x)
+    }
+}
+
+func incrementOptional2(optional:Int?) -> Int? {
+    return optional.map{$0 + 1}
+}
+
+print(incrementOptional2(optional: 30)!)
+
+// 可选值绑定
+func addOptionals(optionalX:Int?,optionalY:Int?) -> Int? {
+    if let x = optionalX{
+        if let y = optionalY {
+            return x + y
+        }
+    }
+    return nil
+}
+
+func addOptionals2(optionalX:Int?,optionalY:Int?) -> Int? {
+    if let x = optionalX,let y = optionalY{
+        return x + y
+    }
+    return nil
+}
+
+func addOptionals3(optionalX:Int?,optionalY:Int?) -> Int? {
+    guard let x = optionalX,let y = optionalY else{
+        return nil
+    }
+    return x + y
+}
+
+let capitals = [
+    "France": "Paris",
+    "Spain": "Madrid",
+    "The Netherlands": "Amsterdam",
+    "Belgium": "Brussels"
+]
+func populationOfCapital(country:String) -> Int? {
+    guard let capital = capitals[country],
+    let population = cities[capital] else {
+       return nil
+    }
+    return population * 1000
+}
+print(populationOfCapital(country: "France")!)
+
+func addOptionals4(optionalX:Int?,optionalY:Int?) -> Int? {
+    return optionalX.flatMap({ (x) in
+        optionalY.flatMap({ (y) in
+            return x + y
+        })
+    })
+}
+print(addOptionals4(optionalX: 3, optionalY: 4)!)
+
+// 为什么要用可选值 参考<< 函数式 swift>>
+
+
 
 
 
