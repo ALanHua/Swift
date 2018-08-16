@@ -138,6 +138,55 @@ func check2<A:Arbitrary>(message:String,_ property:(A)->Bool) -> (){
         print("\"\(message)\" passed:\(numberOfIterations)")
     }
 }
+// 随机数组
+/*
+ 这排序算法写的 666
+ 但需要优化，思想是一样的
+ */
+func qsort(array:inout [Int]) -> [Int] {
+//    出口处也可以在优化
+    if array.isEmpty {
+        return []
+    }
+    // 这个小标的选择还可以优化
+    let pivot  = array.remove(at: 0)
+    var lesser = array.filter {$0 < pivot}
+    var greater = array.filter {$0 > pivot}
+    
+    return qsort(array: &lesser) + [pivot] +  qsort(array: &greater)
+}
+extension Array: Smaller {
+    func smaller() -> Array<Element>? {
+        guard !isEmpty else {
+            return nil
+        }
+        return Array(dropFirst())
+    }
+}
+
+//extension Array :Arbitrary {
+//    static func arbitrary() -> Array<Element> {
+//        let randomLength = Int(arc4random() % 50)
+//        return tabulate(times: randomLength, transform: { _ in
+//
+//        })
+//    }
+//}
+
+var arr = [3,2,1,7,8,10]
+print(arr)
+print(qsort(array:&arr))
+
+// 需要后续确认如何修改
+//check2(message:  "qsort should behave like sort") { (x:[Int]) -> Bool in
+//    var localX = x
+//    let a = qsort(array:&localX)
+//    let b = x.sorted(by: <)
+//    return a == b
+//}
+
+
+
 
 
 
