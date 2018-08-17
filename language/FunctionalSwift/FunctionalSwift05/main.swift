@@ -164,32 +164,71 @@ extension Array: Smaller {
     }
 }
 
-//extension Array :Arbitrary {
-//    static func arbitrary() -> Array<Element> {
-//        let randomLength = Int(arc4random() % 50)
-//        return tabulate(times: randomLength, transform: { _ in
-//
-//        })
-//    }
-//}
+extension Array :Arbitrary where Element:Arbitrary {
+    static func arbitrary() -> [Element] {
+        let randomLength = Int(arc4random() % 50)
+        return tabulate(times: randomLength, transform: { _ in
+            return Element.arbitrary()
+        })
+    }
+}
 
 var arr = [3,2,1,7,8,10]
 print(arr)
 print(qsort(array:&arr))
 
 // 需要后续确认如何修改
-//check2(message:  "qsort should behave like sort") { (x:[Int]) -> Bool in
-//    var localX = x
-//    let a = qsort(array:&localX)
-//    let b = x.sorted(by: <)
-//    return a == b
-//}
+check2(message:  "qsort should behave like sort") { (x:[Int]) -> Bool in
+    var localX = x
+    let a = qsort(array:&localX)
+    let b = x.sorted(by: <)
+    return a == b
+}
 
+/**
+ 部分代码跳过
+ ...........
+ */
 
+// 不可变的价值 值类型与引用类型
 
+struct PointStruct {
+    var x:Int
+    var y:Int
+}
 
+var structPoint = PointStruct(x: 1, y: 2)
+var sameStructPoint = structPoint
+sameStructPoint.x = 3
+print(structPoint)
+print(sameStructPoint)
 
+/// 引用类型
+class PointClass {
+    var x:Int
+    var y:Int
+    
+    init(x:Int,y:Int) {
+        self.x = x
+        self.y = y
+    }
+}
 
+var classPoint = PointClass(x: 1, y: 2)
+var sameClassPoint = classPoint
+sameClassPoint.x = 3
+print(classPoint.x)
+print(sameClassPoint.x)
+
+func setStructToOrign(point:inout PointStruct) -> PointStruct {
+    point.x = 0
+    point.y = 0
+    return point
+}
+
+var structOrigin:PointStruct = setStructToOrign(point: &structPoint)
+print(structOrigin)
+print(structPoint)
 
 
 
