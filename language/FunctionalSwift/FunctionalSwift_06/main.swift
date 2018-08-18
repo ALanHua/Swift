@@ -33,5 +33,69 @@ extension Encoding {
     
 }
 
+func localizedEncodingName(encoding:Encoding) -> String {
+    return .localizedName(of: encoding.nsStringEncoding)
+}
+
+enum LookupError:Error {
+    case CaptialNotFound
+    case PopulationNotFound
+}
+
+enum PopulationResult {
+    case Success(Int)
+    case Error(LookupError)
+}
+
+let exampleSuccess:PopulationResult = .Success(10000)
+print(exampleSuccess)
+
+let capitals = [
+    "France": "Paris",
+    "Spain": "Madrid",
+    "The Netherlands": "Amsterdam",
+    "Belgium": "Brussels"
+]
+let cities = ["Paris": 2241, "Madrid": 3165, "Amsterdam": 827, "Berlin": 3562]
+
+func populationOfCapital(country:String) -> PopulationResult {
+    guard let capital = capitals[country] else {
+        return .Error(.CaptialNotFound)
+    }
+    guard let population = cities[capital] else {
+        return .Error(.CaptialNotFound)
+    }
+    return .Success(population)
+}
+
+// 解错误类型的包裹
+switch populationOfCapital(country: "France"){
+case let .Success(population):
+    print("France's capital has \(population) thousand inhabitants")
+case let .Error(error):
+    print("Error:\(error)")
+
+}
+
+// 添加泛型
+let mayors = [
+    "Paris": "Hidalgo",
+    "Madrid": "Carmena",
+    "Amsterdam": "van der Laan",
+    "Berlin": "Müller"
+]
+
+func mayorOfCapital(country:String) -> String? {
+    return capitals[country].flatMap{mayors[$0]}
+}
+
+enum Result<T> {
+    case Success(T)
+    case Error(Error)
+}
+
+
+
+
 
 
