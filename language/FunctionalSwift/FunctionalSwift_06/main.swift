@@ -94,6 +94,38 @@ enum Result<T> {
     case Error(Error)
 }
 
+// 错误处理
+func populationOfCapital1(country:String) throws -> Int {
+    guard let capital = capitals[country] else {
+        throw LookupError.CaptialNotFound
+    }
+    guard let population = cities[capital] else {
+        throw LookupError.PopulationNotFound
+    }
+    return population
+}
+
+do {
+    let population = try populationOfCapital1(country: "France")
+    print("\(population)")
+}catch {
+    print("Lookup error \(error)")
+}
+
+func ??<T>(result:Result<T>,handleError:(Error)->T) -> T {
+    switch result {
+    case let .Success(value):
+        return value
+    case let .Error(error):
+        return handleError(error)
+    }
+}
+// 数据类型中的代数学
+enum Add<T,U> {
+    case InLeft(T)
+    case InRight(U)
+}
+
 
 
 
