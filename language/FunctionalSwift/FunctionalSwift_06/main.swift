@@ -125,7 +125,108 @@ enum Add<T,U> {
     case InLeft(T)
     case InRight(U)
 }
+// 这时候的枚举是空的
+enum Zero {}
 
+struct Times<T,U> {
+    let fst:T
+    let snd:U
+}
+
+typealias One = ()
+
+// 纯函数式数据结构
+func empty<Element>() -> [Element] {
+    return []
+}
+
+func isEmpty<Element>(set:[Element]) -> Bool {
+    return set.isEmpty
+}
+
+func contains<Element:Equatable>(x:Element,_ set:[Element]) -> Bool {
+    return set.contains(x)
+}
+
+func insert<Element:Equatable>(x:Element,_ set:[Element]) -> [Element] {
+    return contains(x: x, set) ? set : [x] + set
+}
+
+indirect enum BinarySearchTree<Element:Comparable> {
+    case Leaf
+    case Node(BinarySearchTree<Element>,Element,BinarySearchTree<Element>)
+}
+
+let leaf:BinarySearchTree<Int> = .Leaf
+let five:BinarySearchTree<Int> = .Node(leaf,5,leaf)
+
+/**
+ 插播广告,及知识回顾一下
+ */
+
+
+
+extension BinarySearchTree {
+    init() {
+        self = .Leaf
+    }
+    
+    init(_ value:Element) {
+        self = .Node(.Leaf,value,.Leaf)
+    }
+    var count:Int {
+        switch self {
+        case .Leaf:
+            return 0
+        case let .Node(left,_,right):
+            return 1 + left.count + right.count
+        }
+    }
+}
+
+extension BinarySearchTree {
+    var elements:[Element] {
+        switch self {
+        case .Leaf:
+            return []
+        case let .Node(left,x,right):
+            return left.elements + [x] + right.elements
+        }
+    }
+}
+
+extension BinarySearchTree {
+    var isEmpty: Bool {
+        if case .Leaf = self {
+            return true
+        }
+        return false
+    }
+}
+
+extension Sequence {
+    func all(predicate:(Iterator.Element)->Bool) -> Bool {
+        for x in self where !predicate(x) {
+            return false
+        }
+        return true
+    }
+}
+
+extension BinarySearchTree where Element:Comparable {
+    var isBST : Bool {
+        switch self {
+        case .Leaf:
+            return true
+        case let .Node(left,x,right):
+            return left.elements.all(predicate: { y in
+                y < x
+            }) && right.elements.all(predicate: { y in
+                y > x
+            }) && left.isBST && right.isBST
+        }
+    }
+}
 
 
 
