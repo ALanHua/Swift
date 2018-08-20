@@ -305,8 +305,16 @@ var copied = myTree
 copied.insert(x: 5)
 print(myTree.elements)
 print("copied \(copied.elements)")
+// 基于字典数的自动补全
 
-
+func autocomplete(history:[String],textEntered:String) -> [String] {
+    return history.filter{ $0.hasPrefix(textEntered)}
+}
+// 字典数
+struct Trie<Elemen:Hashable>{
+    let isElement:Bool
+    let children:[Elemen:Trie<Elemen>]
+}
 
 
 
