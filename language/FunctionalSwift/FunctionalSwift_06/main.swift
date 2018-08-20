@@ -162,10 +162,46 @@ let five:BinarySearchTree<Int> = .Node(leaf,5,leaf)
 
 /**
  插播广告,及知识回顾一下
+ swift tips 上的例子
  */
+class ReverseIterator<T>: IteratorProtocol {
+    typealias Element = T
+    var array:[Element]
+    var currentIndex = 0
+    
+    init(array:[Element]) {
+        self.array = array
+        currentIndex = array.count - 1
+    }
+    
+     func next() -> Element? {
+        if currentIndex < 0 {
+            return nil
+        }else{
+            let element = array[currentIndex]
+            currentIndex -= 1
+            return element
+        }
+    }
+}
+struct ReverseSequence<T>:Sequence {
+    var array:[T]
+    
+    init(array:[T]) {
+        self.array = array
+    }
+    typealias Iterator = ReverseIterator<T>
+    
+    func makeIterator() -> ReverseIterator<T> {
+        return ReverseIterator(array: self.array)
+    }
+}
+let arr = [0,1,2,3,4]
+for i in ReverseSequence(array: arr){
+    print("Index \(i) is \(arr[i])")
+}
 
-
-
+/////////////////////////////////////////////////////////
 extension BinarySearchTree {
     init() {
         self = .Leaf
@@ -227,6 +263,49 @@ extension BinarySearchTree where Element:Comparable {
         }
     }
 }
+
+extension BinarySearchTree {
+    func contains(x:Element) -> Bool {
+        switch self {
+        case .Leaf:
+            return false
+        case let .Node(_,y,_) where x==y:
+            return true
+        case let .Node(left,y,_) where x < y:
+            return left.contains(x: x)
+        case let .Node(_,y,right) where x > y:
+            return right.contains(x: x)
+        default:
+            fatalError("Error")
+        }
+    }
+}
+
+extension BinarySearchTree {
+    mutating func insert(x:Element){
+        switch self {
+        case .Leaf:
+            self = BinarySearchTree(x)
+        case .Node(let left,let y,let right):
+            var left1 = left
+            var right1 = right
+            if x < y {
+                left1.insert(x: x)
+            }
+            if x > y {
+                right1.insert(x: x)
+            }
+            self = .Node(left1,y,right1)
+        }
+    }
+}
+
+let myTree :BinarySearchTree<Int> = BinarySearchTree()
+var copied = myTree
+copied.insert(x: 5)
+print(myTree.elements)
+print("copied \(copied.elements)")
+
 
 
 
