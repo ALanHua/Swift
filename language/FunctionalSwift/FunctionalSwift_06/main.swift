@@ -305,17 +305,78 @@ var copied = myTree
 copied.insert(x: 5)
 print(myTree.elements)
 print("copied \(copied.elements)")
-// 基于字典数的自动补全
+// test
+//var array2D :[[Int]] = [
+//    [13,1,4],
+//    [5,1,7,6]
+//]
+//for i in array2D{
+//    for j in i {
+//        print(j)
+//    }
+//}
 
+// 基于字典数的自动补全
 func autocomplete(history:[String],textEntered:String) -> [String] {
     return history.filter{ $0.hasPrefix(textEntered)}
 }
 // 字典数
-struct Trie<Elemen:Hashable>{
+struct Trie<Element:Hashable>{
     let isElement:Bool
-    let children:[Elemen:Trie<Elemen>]
+    let children:[Element:Trie<Element>]
 }
 
+extension Trie {
+    init() {
+        isElement = false
+        children = [:]
+    }
+}
 
+extension Trie {
+    var elements:[[Element]] {
+        var result:[[Element]] = isElement ? [[]] : []
+        for (key,value) in children {
+            result += value.elements.map({ [key] + $0
+            })
+        }
+        return result
+    }
+}
+
+extension Array {
+    var decompose:(Element,[Element])?{
+        return isEmpty ? nil : (self[startIndex],Array(self.dropFirst()))
+    }
+}
+
+func sum(xs:[Int]) -> Int {
+    guard let(head,tail) = xs.decompose else {
+        return 0
+    }
+    return head + sum(xs: tail)
+}
+// 其实是一个鬼东西
+func qsort2(input:[Int]) -> [Int] {
+    guard let(pivot,rest) = input.decompose else {
+        return []
+    }
+    let lesser  = rest.filter{$0 < pivot}
+    let greater = rest.filter {$0 > pivot}
+    
+    return qsort2(input:lesser) + [pivot] + qsort2(input:greater)
+}
+
+extension Trie {
+    func lookup(key:[Element]) -> Bool {
+        guard let(head,tail) = key.decompose else {
+            return isElement
+        }
+        guard let subtrie = children[head] else {
+            return false
+        }
+        return subtrie.lookup(key: tail)
+    }
+}
 
 
