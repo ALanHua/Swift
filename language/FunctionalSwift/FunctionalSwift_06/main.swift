@@ -379,4 +379,47 @@ extension Trie {
     }
 }
 
+extension Trie {
+    func withPrefix(prefix:[Element]) -> Trie<Element>? {
+        guard let(head,tail) = prefix.decompose else {
+            return self
+        }
+        guard let remainder = children[head] else {
+            return nil
+        }
+        return remainder.withPrefix(prefix: tail)
+    }
+}
+
+extension Trie {
+    func autocomplete(key:[Element]) -> [[Element]] {
+        return withPrefix(prefix: key)? .elements ?? []
+    }
+}
+
+extension Trie {
+    init(_ key :[Element]) {
+        if let (head,tail) = key.decompose {
+            let children = [head:Trie(tail)]
+            self = Trie(isElement: false, children: children)
+        }else{
+            self = Trie(isElement: true, children: [:])
+        }
+    }
+}
+// 有点晕
+extension Trie {
+    func insert(key:[Element]) -> Trie<Element> {
+        guard let(head,tail) = key.decompose else {
+            return Trie(isElement: true, children: children)
+        }
+        var newChildren = children
+        if let nextTrie = children[head]{
+            newChildren[head] = nextTrie.insert(key: tail)
+        }else{
+            newChildren[head] = Trie(tail)
+        }
+        return Trie(isElement: isElement, children: newChildren)
+    }
+}
 
