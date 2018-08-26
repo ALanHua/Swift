@@ -337,8 +337,8 @@ extension Trie {
     var elements:[[Element]] {
         var result:[[Element]] = isElement ? [[]] : []
         for (key,value) in children {
-            result += value.elements.map({ [key] + $0
-            })
+            print("\(key),\(value)")
+            result += value.elements.map({ [key] + $0})
         }
         return result
     }
@@ -413,6 +413,7 @@ extension Trie {
         guard let(head,tail) = key.decompose else {
             return Trie(isElement: true, children: children)
         }
+//        print("\(head),\(tail)")
         var newChildren = children
         if let nextTrie = children[head]{
             newChildren[head] = nextTrie.insert(key: tail)
@@ -422,4 +423,27 @@ extension Trie {
         return Trie(isElement: isElement, children: newChildren)
     }
 }
+
+func buildStringTrie(words:[String]) -> Trie<Character> {
+    let emptyTrie = Trie<Character>()
+    return words.reduce(emptyTrie, { (trie, word)  in
+        trie.insert(key: Array(word))
+    })
+}
+
+func autocompleteString(knownWords:Trie<Character>,word:String) -> [String] {
+    let chars = Array(word)
+    let completed = knownWords.autocomplete(key: chars)
+    return completed.map({ chars  in
+        word + String(chars)
+    })
+}
+
+let contents = ["cat","car","cart","dog"]
+let trieOfWords = buildStringTrie(words: contents)
+let resultDic = autocompleteString(knownWords: trieOfWords, word: "car")
+print(resultDic)
+
+
+
 
