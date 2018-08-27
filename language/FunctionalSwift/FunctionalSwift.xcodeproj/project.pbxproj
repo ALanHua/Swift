@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B83D2F2B2134422F0059E99D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83D2F2A2134422F0059E99D /* main.swift */; };
 		B869283B211DD7F00066C2CF /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B869283A211DD7F00066C2CF /* main.swift */; };
 		B8692848211EBFE70066C2CF /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8692847211EBFE70066C2CF /* main.swift */; };
 		B86928532120081F0066C2CF /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86928522120081F0066C2CF /* main.swift */; };
@@ -16,6 +17,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		B83D2F262134422F0059E99D /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		B8692835211DD7F00066C2CF /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -73,6 +83,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B83D2F282134422F0059E99D /* FunctionalSwift_07 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FunctionalSwift_07; sourceTree = BUILT_PRODUCTS_DIR; };
+		B83D2F2A2134422F0059E99D /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		B8692837211DD7F00066C2CF /* FunctionalSwift */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FunctionalSwift; sourceTree = BUILT_PRODUCTS_DIR; };
 		B869283A211DD7F00066C2CF /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		B8692845211EBFE70066C2CF /* FunctionalSwift_02 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FunctionalSwift_02; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +100,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		B83D2F252134422F0059E99D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B8692834211DD7F00066C2CF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -133,6 +152,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B83D2F292134422F0059E99D /* FunctionalSwift_07 */ = {
+			isa = PBXGroup;
+			children = (
+				B83D2F2A2134422F0059E99D /* main.swift */,
+			);
+			path = FunctionalSwift_07;
+			sourceTree = "<group>";
+		};
 		B869282E211DD7F00066C2CF = {
 			isa = PBXGroup;
 			children = (
@@ -142,6 +169,7 @@
 				B869285C212079140066C2CF /* FunctionalSwift_04 */,
 				B86928672121D4F80066C2CF /* FunctionalSwift05 */,
 				B8692885212723940066C2CF /* FunctionalSwift_06 */,
+				B83D2F292134422F0059E99D /* FunctionalSwift_07 */,
 				B8692838211DD7F00066C2CF /* Products */,
 			);
 			sourceTree = "<group>";
@@ -155,6 +183,7 @@
 				B869285B212079140066C2CF /* FunctionalSwift_04 */,
 				B86928662121D4F80066C2CF /* FunctionalSwift05 */,
 				B8692884212723940066C2CF /* FunctionalSwift_06 */,
+				B83D2F282134422F0059E99D /* FunctionalSwift_07 */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -210,6 +239,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		B83D2F272134422F0059E99D /* FunctionalSwift_07 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B83D2F2E2134422F0059E99D /* Build configuration list for PBXNativeTarget "FunctionalSwift_07" */;
+			buildPhases = (
+				B83D2F242134422F0059E99D /* Sources */,
+				B83D2F252134422F0059E99D /* Frameworks */,
+				B83D2F262134422F0059E99D /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FunctionalSwift_07;
+			productName = FunctionalSwift_07;
+			productReference = B83D2F282134422F0059E99D /* FunctionalSwift_07 */;
+			productType = "com.apple.product-type.tool";
+		};
 		B8692836211DD7F00066C2CF /* FunctionalSwift */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B869283E211DD7F00066C2CF /* Build configuration list for PBXNativeTarget "FunctionalSwift" */;
@@ -322,6 +368,9 @@
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = none;
 				TargetAttributes = {
+					B83D2F272134422F0059E99D = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
 					B8692836211DD7F00066C2CF = {
 						CreatedOnToolsVersion = 9.4.1;
 					};
@@ -360,11 +409,20 @@
 				B869285A212079140066C2CF /* FunctionalSwift_04 */,
 				B86928652121D4F80066C2CF /* FunctionalSwift05 */,
 				B8692883212723940066C2CF /* FunctionalSwift_06 */,
+				B83D2F272134422F0059E99D /* FunctionalSwift_07 */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		B83D2F242134422F0059E99D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B83D2F2B2134422F0059E99D /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B8692833211DD7F00066C2CF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -416,6 +474,24 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		B83D2F2C2134422F0059E99D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		B83D2F2D2134422F0059E99D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
 		B869283C211DD7F00066C2CF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -646,6 +722,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		B83D2F2E2134422F0059E99D /* Build configuration list for PBXNativeTarget "FunctionalSwift_07" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B83D2F2C2134422F0059E99D /* Debug */,
+				B83D2F2D2134422F0059E99D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		B8692832211DD7F00066C2CF /* Build configuration list for PBXProject "FunctionalSwift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
