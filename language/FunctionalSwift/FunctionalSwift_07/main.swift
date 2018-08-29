@@ -46,14 +46,71 @@ extension Diagram {
     }
 }
 
+func *(l:CGFloat,r:CGSize) -> CGSize {
+    return CGSize(width: l * r.width, height: l * r.height)
+}
+func *(l:CGSize,r:CGSize) -> CGSize {
+    return CGSize(width: l.width * r.width, height: l.height * r.height)
+}
+
+func /(l:CGSize,r:CGSize) -> CGSize {
+    return CGSize(width:  l.width / r.width, height: l.height / r.height)
+}
+
+func -(l:CGSize,r:CGSize) -> CGSize {
+    return CGSize(width: l.width - r.width, height: l.height - r.height)
+}
+
+func -(l:CGPoint,r:CGPoint) -> CGPoint {
+    return CGPoint(x: l.x - r.x, y: l.y - r.y)
+}
+
+extension CGVector {
+    var point:CGPoint{return CGPoint(x: dx, y: dy)}
+    var size:CGSize {return CGSize(width: dx, height: dy)}
+}
+
 extension CGSize {
-//    func fit(vector:CGVector,_ rect:CGRect) -> CGRect {
-//        let scaleSize = CGSize(width: rect.width / self.width, height: rect.height / self.height)
-//        let scale = min(scaleSize.width, scaleSize.height)
-//        let size = CGSize(width: self.width * scale, height: self.height * scale)
-//        let space = vector.s
-//        
-//    }
+    var point:CGPoint {
+        return CGPoint(x: self.width, y: self.height)
+    }
+}
+
+extension CGSize {
+    func fit(vector:CGVector,_ rect:CGRect) -> CGRect {
+        let scaleSize = rect.size / self
+        let scale = min(scaleSize.width, scaleSize.height)
+        let size = scale * self
+        let space = vector.size * (size - rect.size)
+        return CGRect(origin: rect.origin - space.point, size: size)
+    }
+}
+
+let rect = CGSize(width: 1, height: 1).fit(vector: CGVector(dx: 0.5, dy: 0.5), CGRect(x: 0, y: 0, width: 200, height: 100))
+
+print(rect)
+
+extension CGContext {
+    func draw(bounds:CGRect,_ diagram:Diagram) {
+        switch diagram {
+        case .Prim(let size, .Ellipse):
+            let frame = size.fit(vector: CGVector(dx: 0.5, dy: 0.5), bounds)
+            fillEllipse(in: frame)
+        case .Prim(let size, .Rectangle):
+            let frame = size.fit(vector: CGVector(dx: 0.5, dy: 0.5), bounds)
+            fill(frame)
+        case .Prim(_, .Text(_)):
+            break
+        case .Beside(_, _):
+            break
+        case .Below(_, _):
+            break
+        case .Attributed(_, _):
+            break
+        case .Align(_, _):
+            break
+        }
+    }
 }
 
 
