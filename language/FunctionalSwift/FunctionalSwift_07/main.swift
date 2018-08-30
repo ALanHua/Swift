@@ -75,6 +75,11 @@ extension CGSize {
         return CGPoint(x: self.width, y: self.height)
     }
 }
+extension CGRectEdge{
+    var isHirizontal:Bool {
+        return self == .maxXEdge || self == .minXEdge
+    }
+}
 
 extension CGSize {
     func fit(vector:CGVector,_ rect:CGRect) -> CGRect {
@@ -83,6 +88,13 @@ extension CGSize {
         let size = scale * self
         let space = vector.size * (size - rect.size)
         return CGRect(origin: rect.origin - space.point, size: size)
+    }
+}
+
+extension CGRect {
+    func sqlit(radio:CGFloat,edge:CGRectEdge) -> (CGRect,CGRect) {
+        let length = edge.isHirizontal ? width : height
+        return divided(atDistance:length, from: edge)
     }
 }
 
@@ -99,18 +111,67 @@ extension CGContext {
         case .Prim(let size, .Rectangle):
             let frame = size.fit(vector: CGVector(dx: 0.5, dy: 0.5), bounds)
             fill(frame)
-        case .Prim(_, .Text(_)):
-            break
-        case .Beside(_, _):
-            break
-        case .Below(_, _):
-            break
-        case .Attributed(_, _):
-            break
-        case .Align(_, _):
-            break
+        case .Prim(let size, .Text(let text)):
+            let frame = size.fit(vector: CGVector(dx: 0.5, dy: 0.5), bounds)
+            let font = NSFont.systemFont(ofSize: 12)
+            let attributes = [NSAttributedStringKey.font:font]
+            let attributedText = NSAttributedString(string: text, attributes: attributes)
+            attributedText.draw(in: frame)
+        case .Beside(let left,let right):
+            let (lFrame,rFrame) = bounds.sqlit(radio: left.size.width / diagram.size.width, edge: .minXEdge)
+            draw(bounds: lFrame, left)
+            draw(bounds: rFrame, right)
+        case .Below(let top,let bottom):
+            let (lFrame,rFrame) = bounds.sqlit(radio: bottom.size.width / diagram.size.width, edge: .minXEdge)
+            draw(bounds: lFrame, top)
+            draw(bounds: rFrame, bottom)
+        case .Attributed(.FillColor(let color),let d):
+            saveGState()
+            color.set()
+            draw(bounds: bounds, d)
+            restoreGState()
+        case .Align(let vec, let diagram):
+            let frame = diagram.size.fit(vector: vec, bounds)
+            draw(bounds: frame, diagram)
         }
     }
+}
+
+extension Diagram {
+    func pdf(width:CGFloat) -> Data {
+        let height = width * (size.height / size.width)
+        let v = Draw(frame: NSRect(x: 0, y: 0, width: width, height: height), diagram: self)
+        return v.dataWithPDF(inside: v.bounds)
+    }
+}
+
+class Draw: NSView {
+    let diagram : Diagram
+    
+    init(frame frameRect: NSRect,diagram : Diagram) {
+        self.diagram = diagram
+        super.init(frame: frameRect)
+    }
+    
+    required init?(coder decoder: NSCoder) {
+        fatalError("NSCoding not support")
+    }
+    
+    override func draw(_ dirtyRect: NSRect) {
+        guard let context = NSGraphicsContext.current else {
+            return
+        }
+        context.cgContext.draw(bounds: self.bounds, diagram)
+    }
+}
+precedencegroup QuesGroup {
+    associativity: left
+}
+
+infix operator ||| : QuesGroup
+
+func |||(l:Diagram,r:Diagram) -> Diagram {
+    return Diagram.Beside(l, r)
 }
 
 
