@@ -164,6 +164,11 @@ class Draw: NSView {
         context.cgContext.draw(bounds: self.bounds, diagram)
     }
 }
+
+func rect(width: CGFloat,height: CGFloat) -> Diagram {
+    return .Prim(CGSize(width: width, height: height), .Rectangle)
+}
+
 precedencegroup QuesGroup {
     associativity: left
 }
@@ -174,5 +179,28 @@ func |||(l:Diagram,r:Diagram) -> Diagram {
     return Diagram.Beside(l, r)
 }
 
+infix operator --- : QuesGroup
+func ---(l:Diagram,r:Diagram) -> Diagram {
+    return Diagram.Below(l, r)
+}
+
+extension Diagram {
+    func fill(color:NSColor) -> Diagram {
+        return .Attributed(.FillColor(color), self)
+    }
+    
+    func alignTop() -> Diagram {
+        return .Align(CGVector(dx: 0.5, dy: 1), self)
+    }
+    
+    func alignBottom() -> Diagram {
+        return .Align(CGVector(dx: 0.5, dy: 0), self)
+    }
+    
+}
+let empty:Diagram = rect(width: 0, height: 0)
+func hcat(diagrams:[Diagram]) -> Diagram {
+    return diagrams.reduce(empty, { $0 ||| $1})
+}
 
 
