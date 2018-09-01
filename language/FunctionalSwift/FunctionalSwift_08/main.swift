@@ -114,6 +114,37 @@ let result = PowerGernerator().findPower { (number) -> Bool in
 }
 print(result)
 
+// 知识补充之 ---- NSCharacterSet 使用
+/***********************************************************/
+// 删除空格符
+var string = "  Lorem    ipsum dolar   sit  amet. "
+let components = string.components(separatedBy: NSCharacterSet.whitespaces).filter { !$0.isEmpty}
+print(components)
+// 解析数据
+let skippedCharacters = NSMutableCharacterSet.punctuation()
+
+
+/***********************************************************/
+class FileLineGenerator: GeneratorType {
+    typealias Element = String
+    var lines:[String] = []
+    
+    init(filename:String) throws {
+        // 通过使用给定编码解释的给定路径上的文件读取数据而创建的字符串。
+        let contents : String = try String(contentsOfFile: filename)
+        let newLine = NSCharacterSet.newlines
+        // 以换行符作为分割
+        lines = contents.components(separatedBy: newLine)
+    }
+    
+    func next() -> Element? {
+        guard !lines.isEmpty else {
+            return nil
+        }
+        let nextLine = lines.remove(at: 0)
+        return nextLine
+    }
+}
 
 
 
