@@ -202,6 +202,37 @@ class LimitGenerator<G:GeneratorType> :GeneratorType{
     }
 }
 
+protocol SequenceType {
+    associatedtype Generator:GeneratorType
+    func generate() -> Generator
+}
+
+struct ReverseSequence<T>:SequenceType{
+    var array:[T]
+    
+    init(array:[T]) {
+        self.array = array
+    }
+    func generate() -> CountdownGenerator {
+        return CountdownGenerator(array: array)
+    }
+}
+
+let reverseSequence = ReverseSequence(array: xs)
+let reverseGenerator = reverseSequence.generate()
+
+while let i = reverseGenerator.next() {
+    print("index:\(i) \(xs[i])")
+}
+
+// 函子
+/**
+ 略 后面章节未巧代码
+ */
+
+
+
+
 
 
 
