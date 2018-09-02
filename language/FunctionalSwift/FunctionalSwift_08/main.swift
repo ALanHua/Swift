@@ -121,8 +121,36 @@ var string = "  Lorem    ipsum dolar   sit  amet. "
 let components = string.components(separatedBy: NSCharacterSet.whitespaces).filter { !$0.isEmpty}
 print(components)
 // 解析数据
-let skippedCharacters = NSMutableCharacterSet.punctuation()
+let hour: String = """
+    Mon-Thurs:  8:00 - 18:00
+    Fri-Sat:        7:00 - 17:00
+    Sat-Sun:    10:00 - 15:00
+"""
+// 创建了一个标点符号集合
+var skippedCharacters = CharacterSet.punctuationCharacters
+// 设置这个集合为空白符
+skippedCharacters.formUnion(CharacterSet.whitespaces)
 
+hour.enumerateLines { (line, _) in
+    let scanner = Scanner(string: line)
+    // 设置需要跳过的字符类型集合
+    scanner.charactersToBeSkipped = skippedCharacters
+    var startDay,endDay:NSString?
+    var startHour:Int = 0
+    var startMinute:Int = 0
+    var endHour:Int = 0
+    var endMinute:Int = 0
+  
+    scanner.scanCharacters(from: CharacterSet.letters, into: &startDay)
+    scanner.scanCharacters(from: CharacterSet.letters, into: &endDay)
+    
+    scanner.scanInt(&startHour)
+    scanner.scanInt(&startMinute)
+    scanner.scanInt(&endHour)
+    scanner.scanInt(&endMinute)
+    
+    print("\(startDay!)-\(endDay!),\(startHour):\(startMinute),\(endHour):\(endMinute)")
+}
 
 /***********************************************************/
 class FileLineGenerator: GeneratorType {
@@ -132,7 +160,7 @@ class FileLineGenerator: GeneratorType {
     init(filename:String) throws {
         // 通过使用给定编码解释的给定路径上的文件读取数据而创建的字符串。
         let contents : String = try String(contentsOfFile: filename)
-        let newLine = NSCharacterSet.newlines
+        let newLine = CharacterSet.newlines
         // 以换行符作为分割
         lines = contents.components(separatedBy: newLine)
     }
@@ -146,6 +174,33 @@ class FileLineGenerator: GeneratorType {
     }
 }
 
+extension GeneratorType {
+    mutating func find(predicate:(Element)->Bool) ->Element?{
+        while let x = self.next() {
+            if predicate(x) {
+                return x
+            }
+        }
+        return nil
+    }
+}
+class LimitGenerator<G:GeneratorType> :GeneratorType{
+    var limit = 0
+    var generator:G
+    
+    init(limit:Int,generator:G) {
+        self.limit = limit
+        self.generator = generator
+    }
+    
+    func next() -> G.Element? {
+        guard limit > 0 else {
+            return nil
+        }
+        limit = limit - 1
+        return generator.next()
+    }
+}
 
 
 
