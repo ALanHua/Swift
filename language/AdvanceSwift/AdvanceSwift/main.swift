@@ -72,13 +72,92 @@ let match = names.last { (element) -> Bool in
 }
 print(match ?? "none")
 
+extension Array {
+    func accumulate<Result>(_ initialResult:Result,_ nextPartialResult:(Result,Element)->Result) -> [Result] {
+        var running = initialResult
+        return map({ next in
+            running = nextPartialResult(running,next)
+            return running
+        })
+    }
+}
 
+let resultArr = [1,2,3,4].accumulate(0,+)
+print(resultArr)
 
+let nums = [1,2,3,4,5,6,7,8,9,10].filter{ $0 % 2 == 0}
+print(nums)
+let powerNum = (1..<10).map { $0 * $0}.filter { $0 % 2 == 0}
+print(powerNum)
 
+extension Array {
+    func filter(_ isInclude:(Element) -> Bool) -> [Element] {
+        var result:[Element] = []
+        for x in self where isInclude(x) {
+            result.append(x)
+        }
+        return result
+    }
+}
 
+extension Sequence {
+    public func all(matching predicate:(Element) -> Bool) -> Bool {
+        return !contains(where: { !predicate($0)})
+    }
+}
 
+let evenNums = nums.filter {$0 % 2 == 0}
+print(evenNums)
+print(evenNums.all(matching: { $0 % 2 == 0}))
 
+// reduce
+let fibs2 = [0,1,2,3,4,5]
+var total = 0
+for num in fibs2 {
+    total = total + num
+}
+print(total)
 
+let sum = fibs2.reduce(0) { total,num in
+    total + num
+}
+print(sum)
+let sum2 = fibs2.reduce("") { (str, num) in
+    str + "\(num),"}
+print(sum2)
+
+extension Array {
+    func reduce<Result>(_ initialResult:Result,_ nextPartialResult:(Result,Element) -> Result) -> Result {
+        var result = initialResult
+        for x in self {
+            result = nextPartialResult(result,x)
+        }
+        return result
+    }
+}
+
+extension Array {
+    func map2<T>(_ transform:(Element)->T) -> [T] {
+        return reduce([], {
+            $0 + [transform($1)]
+        })
+    }
+    
+    func fitter2(_ isInclude:(Element) -> Bool) -> [Element] {
+        return reduce([], {
+            isInclude($1) ? $0 + [$1] : $0
+        })
+    }
+    
+    func filter3(_ isInclude:(Element)->Bool) -> [Element] {
+        return reduce(into: [], { (result, element) in
+            if isInclude(element) {
+                result.append(element)
+            }
+        })
+    }
+    
+}
 
 
 
