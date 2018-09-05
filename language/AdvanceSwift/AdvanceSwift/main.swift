@@ -232,6 +232,34 @@ print(userSetting)
 // 使用updateValue 更新字典
 let oldName = userSetting.updateValue(.text("Apple"), forKey: "Name")
 print(userSetting["Name"]!)
+// 有用的字典方法
+var setting = userSetting
+let overriddenSetting:[String:Setting] = [
+    "Name" : .text("Abert iPhone")
+]
+// 我们使用{$1}来作为合并两个值的策略，也就是说，如果莫日根键同时存在于
+// overriddenSettingz中 我们使用overriddenSetting中的值
+setting.merge(overriddenSetting) { $1}
+print(setting)
+
+extension Sequence where Element:Hashable {
+    var frequencies:[Element:Int] {
+        let frequencyPairs = self.map { ($0,1)}
+        return Dictionary(frequencyPairs,uniquingKeysWith:+)
+    }
+}
+
+let frequencies = "hello".frequencies
+print(frequencies.filter({$0.value > 1}))
+
+let settingAsString = setting.mapValues { (setting) -> String in
+    switch setting {
+    case .text(let text):return text
+    case .int(let number): return String(number)
+    case .bool(let value):return String(value)
+    }
+}
+print(settingAsString)
 
 
 
