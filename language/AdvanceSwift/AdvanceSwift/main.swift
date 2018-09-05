@@ -159,6 +159,79 @@ extension Array {
     
 }
 
+// flatMap
+extension Array {
+    func flatMap<T>(_ transform:(Element)->[T]) -> [T] {
+        var result:[T] = []
+        for x in self {
+            result.append(contentsOf: transform(x))
+        }
+        return result
+    }
+}
+// flatmap 常见使用 合并两个数组元素
+let suit = ["♠︎", "♥︎", "♣︎", "♦︎"]
+let ranks = ["J","Q","K","A"]
+
+let resultFlatMap = suit.flatMap { (suit) in
+    ranks.map({ (rank)in
+        (suit,ranks)
+    })
+}
+//print(resultFlatMap)
+
+// forEach
+for element in [1,2,3] {
+    print(element)
+}
+
+[1,2,3].forEach { (element) in
+    print(element)
+}
+
+extension Array where Element:Equatable {
+    func index(of element:Element) -> Int? {
+        for idx in self.indices where self[idx] == element{
+            return idx
+        }
+        return nil
+    }
+// bad ecample
+//    func index_foreach(of element:Element) -> Int? {
+//        self.indices.filter { (idx) in
+//            self[idx] == element
+//            }.forEach { idx in
+//                return idx
+//            }
+//        return nil
+//    }
+}
+
+// 切片
+let slice = fibs[1...]
+print(slice)
+
+let newArray = Array(slice)
+// 字典
+enum Setting {
+    case text(String)
+    case int(Int)
+    case bool(Bool)
+}
+
+let defaultSetting : [String:Setting] = [
+    "Airplane Mode" : .bool(false),
+    "Name" : .text("My iPhone")
+]
+
+print(defaultSetting["Name"]!)
+var userSetting = defaultSetting
+userSetting["Name"] = .text("Andy iPhone")
+userSetting["Do it"] = .bool(true)
+print(userSetting)
+// 使用updateValue 更新字典
+let oldName = userSetting.updateValue(.text("Apple"), forKey: "Name")
+print(userSetting["Name"]!)
 
 
 
