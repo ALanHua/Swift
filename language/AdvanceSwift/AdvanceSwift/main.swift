@@ -261,6 +261,82 @@ let settingAsString = setting.mapValues { (setting) -> String in
 }
 print(settingAsString)
 
+// Hashable
+// Set
+let natureals:Set = [1,2,3,2]
+print(natureals)
+// 集合代数
+let iPods:Set = [
+    "iPod touch", "iPod nano",
+    "iPod mini","iPod shuffle", "iPod Classic"
+]
+let discontinuedIPods:Set =  [
+    "iPod mini", "iPod Classic",
+    "iPod nano", "iPod shuffle"]
+// 差集--补集
+let currentPods = iPods.subtracting(discontinuedIPods)
+print(currentPods)
+// 交集
+let touchscream:Set = [
+    "iPhone", "iPad", "iPod touch", "iPod nano"
+]
+let iPodsWithTouch = iPods.intersection(touchscream)
+print(iPodsWithTouch)
+
+// 并集
+var discontinued:Set = ["iBook","Powerbook","Power Mac"]
+discontinued.formUnion(discontinuedIPods)
+print(discontinued)
+// 索引集合和字符集合
+var indices = IndexSet()
+indices.insert(integersIn: 1..<5)
+indices.insert(integersIn: 11..<15)
+let evenIndices = indices.filter { $0 % 2 == 0}
+print(indices)
+print(evenIndices)
+
+extension Sequence where Element:Hashable {
+    func unique() -> [Element] {
+        var seem:Set<Element> = []
+        return filter({ (element) in
+            if seem.contains(element){
+                return false
+            }else {
+                seem.insert(element)
+                return true
+            }
+        })
+    }
+}
+
+print([1,2,3,4,4,3,2,7,8].unique())
+
+// Range
+let singleDigtNumber = 0..<10
+print(Array(singleDigtNumber))
+let lowercaseLetters = Character("a")...Character("z")
+print(lowercaseLetters.overlaps("c"..<"f"))
+let fromZero = 0...
+
+// 可数范围
+for i in 0..<10 {
+    print("\(i)",terminator:" ")
+}
+
+// 部分范围
+let fromA:PartialRangeFrom<Character> = Character("a")...
+let throughZ:PartialRangeThrough<Character> = ...Character("z")
+let upto10:PartialRangeUpTo<Int> = ..<10
+let frommFive:CountablePartialRangeFrom<Int> = 5...
+
+// 范围表达式
+
+
+
+
+
+
+
 
 
 
