@@ -330,12 +330,15 @@ let upto10:PartialRangeUpTo<Int> = ..<10
 let frommFive:CountablePartialRangeFrom<Int> = 5...
 
 // 范围表达式
-
-
-
-
-
-
+//public protocol RangeExpression {
+//    associatedtype Bound:Comparable
+//    func contain(_ element:Bound) -> Bool
+//    func relative<C:_Indexable>(to collection:C) -> Range<Bound> where C.index == Bound
+//}
+let arr = [1,2,3,4]
+print(arr[2...])
+print(arr[..<1])
+print(arr[1...2])
 
 
 
