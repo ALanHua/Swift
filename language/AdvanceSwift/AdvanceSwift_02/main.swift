@@ -193,7 +193,57 @@ print(list2.contains("2"))
 print(list2.compactMap({Int($0)}))
 
 // 集合类型
+protocol Queue {
+    associatedtype Element
+    mutating func enqueue(_ newElement:Element)
+    mutating func dequeue()->Element?
+}
 
+struct FIFOQueue<Element>:Queue {
+    private var left:[Element] = []
+    private var right:[Element] = []
+    // 将元素添加到队列最后
+    // - 复杂度为O(1）
+    mutating func enqueue(_ newElement: Element) {
+        right.append(newElement)
+    }
+    // 将队列前端移除一个元素
+    // - 复杂度为 平摊O(1）
+    //   需要使用银行家理论来分析平摊复杂度 
+    mutating func dequeue() -> Element? {
+        if left.isEmpty {
+            left = right.reversed()
+            right.removeAll()
+        }
+        return left.popLast()
+    }
+    
+}
+
+extension FIFOQueue:Collection {
+    subscript(position: Int) -> Element {
+        precondition((0..<endIndex).contains(position), "Index out of boounds")
+        if position < left.endIndex {
+            return left[left.count - position]
+        }else {
+            return right[position - left.count]
+        }
+    }
+    
+    public var startIndex:Int{
+        return 0
+    }
+    
+    public var endIndex:Int {
+        return left.count + right.count
+    }
+    
+    func index(after i: Int) -> Int {
+        precondition(i < endIndex)
+        return i + 1
+    }
+    
+}
 
 
 
