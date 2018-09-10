@@ -138,6 +138,61 @@ let oneElementList = List.node(1, next: emptyList)
 let list = List<Int>.end.cons(1).cons(2).cons(3)
 print(list)
 // 链式的链表看上去很丑
+extension List:ExpressibleByArrayLiteral{
+    init(arrayLiteral elements: Element...) {
+        self = elements.reversed().reduce(.end) { (partialList,element)  in
+            partialList.cons(element)
+        }
+    }
+}
+
+extension List {
+    mutating func push(_ x: Element){
+        self = self.cons(x)
+    }
+    
+    mutating func pop() -> Element?{
+        switch self {
+        case .end:
+            return nil
+        case let .node(x,next:tail):
+            self = tail
+            return x
+        }
+    }
+    
+}
+extension List:IteratorProtocol,Sequence{
+    mutating func next() -> Element? {
+        return pop()
+    }
+}
+
+var stack:List<Int> = [3,2,1]
+var a = stack
+var b = stack
+print(a.pop()!)
+print(a.pop()!)
+print(a.pop()!)
+stack.push(4)
+print(b.pop()!)
+print(b.pop()!)
+print(b.pop()!)
+print(stack.pop()!)
+print(stack.pop()!)
+print(stack.pop()!)
+print("---------------------")
+let list2:List = ["3","2","1"]
+for x in list2 {
+    print("\(x)")
+}
+// 使用标准库函数
+print(list2.joined(separator: ","))
+print(list2.contains("2"))
+// 过滤nil值
+print(list2.compactMap({Int($0)}))
+
+// 集合类型
 
 
 
