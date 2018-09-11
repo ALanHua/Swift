@@ -288,6 +288,52 @@ extension Substring {
     
 }
 
+struct Words:Collection {
+    let string: Substring
+    let startIndex : WordsIndex
+    
+    init(_ s: String) {
+        self.init(s[...])
+    }
+    
+    private init(_ s: Substring) {
+        self.string = s
+        self.startIndex = WordsIndex(string.nextWordRange)
+    }
+    
+    subscript(index: WordsIndex) -> Substring{
+        return string[index.range]
+    }
+    
+    var endIndex: WordsIndex {
+        let e = string.endIndex
+        return WordsIndex(e..<e)
+    }
+    
+    func index(after i: WordsIndex) -> WordsIndex {
+        guard i.range.upperBound < string.endIndex else {
+            return endIndex
+        }
+        let remainder = string[i.range.upperBound...]
+        return WordsIndex(remainder.nextWordRange)
+    }
+}
+
+struct WordsIndex: Comparable {
+    fileprivate let range: Range<Substring.Index>
+
+    fileprivate init(_ value:Range<Substring.Index>) {
+        self.range = value
+    }
+    static func <(lhs:Words.Index,rhs:Words.Index) ->Bool {
+        return lhs.range.lowerBound < rhs.range.lowerBound
+    }
+    static func ==(lhs:Words.Index,rhs:Words.Index) ->Bool {
+        return lhs.range == rhs.range
+    }
+}
+
+print(Array(Words("hello world test")).prefix(1))
 
 
 
