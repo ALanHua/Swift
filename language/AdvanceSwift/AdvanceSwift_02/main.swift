@@ -245,6 +245,48 @@ extension FIFOQueue:Collection {
     
 }
 
+var q = FIFOQueue<String>()
+for x in ["1","2","foo","3"] {
+    q.enqueue(x)
+}
+
+for s in q {
+    print(s,terminator:" ")
+}
+print("\n")
+
+var aq = Array(q)
+aq.append(contentsOf: q[2...3])
+print(aq)
+let qMap = q.map { $0.uppercased()}
+print(qMap)
+print(q.compactMap({ Int($0)}))
+print(q.filter({ $0.count > 1}))
+print(q.sorted())
+// .....
+
+// 遵守ExpressibleByArrayLiteral
+extension FIFOQueue:ExpressibleByArrayLiteral{
+   public init(arrayLiteral elements: Element...) {
+        left  = elements.reversed()
+        right = []
+    }
+}
+
+let queue:FIFOQueue = [1,2,3]
+print(queue)
+
+var str = "Still I see monsters"
+print(str.split(separator: " "))
+
+extension Substring {
+    var nextWordRange:Range<Index>{
+        let start = drop { $0 == " "}
+        let end = start.index {$0 == " "} ?? endIndex
+        return start.startIndex ..< end
+    }
+    
+}
 
 
 
