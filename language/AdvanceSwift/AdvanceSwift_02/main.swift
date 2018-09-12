@@ -445,6 +445,14 @@ extension BidirectionalCollection{
 //
 //}
 
+extension FIFOQueue:RangeReplaceableCollection{
+    mutating func replaceSubrange<C, R>(_ subrange: R, with newElements: C) where C : Collection, R : RangeExpression, Element == C.Element, Int == R.Bound {
+        right = left.reversed() + right
+        left.removeAll()
+        right.replaceSubrange(subrange, with: newElements)
+    }
+}
+
 
 
 
