@@ -335,6 +335,125 @@ struct WordsIndex: Comparable {
 
 print(Array(Words("hello world test")).prefix(1))
 
+// 切片
+let words:Words = Words("one two three")
+let onePastStart = words.index(after: words.startIndex)
+print(onePastStart)
+let firstDropped = words[onePastStart..<words.endIndex]
+print(Array(firstDropped))
+// 标准库变体函数
+let firstDropped2 = words.suffix(from: onePastStart)
+let firstDropped3 = words[onePastStart...]
+print(Array(firstDropped3))
+
+struct Slice<Base:Collection>:Collection {
+    typealias Index = Base.Index
+    typealias indexDistance = Int
+    typealias SubSequence = Slice<Base>
+    
+    let collection:Base
+    var startIndex:Index
+    var endIndex:Index
+    
+    init(base:Base,bounds:Range<Index>) {
+        collection = base
+        startIndex = bounds.lowerBound
+        endIndex   = bounds.upperBound
+    }
+    
+    func index(after i: Index) -> Index {
+        return collection.index(after: i)
+    }
+    
+    subscript(position:Index) -> Base.Element{
+        return collection[position]
+    }
+    
+    subscript(bounds:Range<Base.Index>) -> Slice<Base>{
+        return Slice(base: collection, bounds: bounds)
+    }
+    
+}
+
+extension Words {
+    subscript(range:Range<WordsIndex>) -> Words{
+        let start = range.lowerBound.range.lowerBound
+        let end   = range.upperBound.range.upperBound
+        return Words(string[start..<end])
+    }
+}
+//  切片与原集合共享索引
+let cities = ["New York", "Rio", "London", "Berlin",
+"Rome", "Beijing", "Tokyo", "Sydney"]
+let slice = cities[2...4]
+print(cities.startIndex)
+print(cities.endIndex)
+print(slice.startIndex)
+print(slice.endIndex)
+
+// 泛型PrefixIterator
+struct PrefixIterator2<Base:Collection>:IteratorProtocol,Sequence {
+    let base:Base
+    var offset:Base.Index
+    
+    init(_ base:Base) {
+        self.base   = base
+        self.offset = base.startIndex
+    }
+    
+    mutating func next() ->Base.SubSequence? {
+        guard offset != base.endIndex else {
+            return nil
+        }
+        base.formIndex(after: &offset)
+        return base.prefix(upTo: offset)
+    }
+}
+
+let numbers = [1,2,3]
+print(Array(PrefixIterator2(numbers)))
+
+// 双向索引
+extension BidirectionalCollection{
+    public var last:Element?{
+        return isEmpty ? nil : self[index(before: endIndex)]
+    }
+    
+}
+
+// 随机存取的集合类型 MutableCollection
+//extension FIFOQueue:MutableCollection{
+//
+//    public subscript(position:Int)->Element{
+//        get{
+//            precondition((0..<endIndex).contains(position), "Index out of bound")
+//            if position < left.endIndex{
+//                return left[left.count - position - 1]
+//            }else{
+//                return right[position - left.count]
+//            }
+//        }
+//        set{
+//            precondition((0..<endIndex).contains(position), "Index out of bound")
+//            if position < left.endIndex{
+//                left[left.count - position - 1] = newValue
+//            }else{
+//                right[position - left.count] = newValue
+//            }
+//        }
+//    }
+//
+//}
+
+
+
+
+
+
+
+
+
+
 
 
 
