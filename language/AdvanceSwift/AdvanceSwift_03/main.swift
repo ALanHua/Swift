@@ -146,8 +146,105 @@ extension String {
         let extensionStart = index(after: period)
         return String(self[extensionStart...])
     }
+}
+
+// 一个函数返回值如果是Never的话，就意味着告诉编译器这个函数不会返回
+// 有两个常见的函数会这么做，一个是fatalError / dispatchMain
+// Never 又被叫做无人类型
+// Void 是空元组的一个写法
+
+// 可选链
+let str: String? = "Never say never"
+let upper:String
+if str != nil {
+    upper = str!.uppercased()
+    print(upper)
+}else{
+    fatalError("error")
+}
+let lower = str?.uppercased().lowercased()
+//print(lower)
+extension Int {
+    var half:Int?{
+        guard self < -1 || self > 1 else {
+            return nil
+        }
+        return self / 2
+    }
+}
+//print(20.half?.half?.half)
+let dictOfArrays = ["nine":[0,1,2,3]]
+//dictOfArrays["nime"]?[3]
+//print(dictOfArrays["nine"]?[3])
+let dictOfFunction:[String:(Int,Int)->Int] = [
+    "add":(+),
+    "subtract":(-)
+]
+//dictOfFunction["add"]?(1,3)
+//print(dictOfFunction["add"]?(1,3))
+
+class TextField {
+    private(set) var text = ""
+    var didChange:((String)->())?
+    
+    private func textDidChange(newText:String){
+        text = newText
+        didChange?(text)
+    }
     
 }
+
+struct Person {
+    var name:String
+    var age:Int
+}
+
+var optionalLise:Person? = Person(name: "andy", age: 8)
+// 如下这样写不可行
+//if var lisa = optionalLise{
+//    lisa?.age += 1
+//}
+optionalLise?.age += 1
+//print(optionalLise?.age)
+
+// MARK: 有一个比较古怪的的边界情况
+var a:Int? = 5
+a? = 10
+//print(a)
+var b:Int? = nil
+b? = 10
+//print(b)
+// nil 合并运算符
+let stringteger = "1"
+let number2 = Int(stringteger) ?? 0
+print(number2)
+
+extension Array {
+    subscript(guarded idx: Int) ->Element?{
+        guard (startIndex ..< endIndex).contains(idx) else{
+            return nil
+        }
+        return self[idx]
+    }
+}
+
+let array3 = [1,2,4]
+print(array3[guarded:5] ?? 0)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
