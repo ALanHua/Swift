@@ -231,6 +231,76 @@ extension Array {
 let array3 = [1,2,4]
 print(array3[guarded:5] ?? 0)
 
+let i1:Int? = nil
+let j1:Int? = nil
+let k1:Int? = 42
+let t = i1 ?? j1 ?? k1 ?? 0
+print(t)
+
+let m = i1 ?? j1 ?? k1
+print(type(of:m))
+
+if let n = i1 ?? j1 {
+   print(n)
+}
+
+// 字符串差值中使用可选值
+let bodyTemperature:Double? = 37.0
+let bloodGlucose:Double? = nil
+
+infix operator ???:NilCoalescingPrecedence
+public func ???<T>(optional:T?,defaultValue:@autoclosure ()->String) -> String{
+    switch optional {
+    case let value?:
+        return String(describing: value)
+    case nil:
+        return defaultValue()
+    }
+}
+print("\(bodyTemperature ??? "n/a")")
+print("\(bloodGlucose ??? "n/a")")
+
+// 可选值map
+extension Optional{
+    func map<U>(transform:(Wrapped)-> U) -> U? {
+        if let value = self {
+            return transform(value)
+        }
+        return nil
+    }
+}
+
+let characters:[Character] = ["a","b","c"]
+print(String(characters[0]))
+
+let firstChar = characters.first.map { $0}
+print(firstChar!)
+
+
+extension Array {
+    func reduce(_ nextPartialResult:(Element,Element) -> Element) -> Element? {
+//        guard let fst = first else{
+//            return nil
+//        }
+//        return dropFirst().reduce(fst, nextPartialResult)
+        return first.map({
+            dropFirst().reduce($0, nextPartialResult)
+        })
+    }
+}
+
+if let a = [1,2,3,4].reduce(+){
+    print(a)
+}
+
+
+
+
+
+
+
+
+
 
 
 
