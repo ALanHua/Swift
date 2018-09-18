@@ -293,10 +293,74 @@ if let a = [1,2,3,4].reduce(+){
     print(a)
 }
 
+// 可选值glatMap
+let stringNumber2 = ["1","2","2","foo"]
+let x = stringNumber2.first.map {Int($0)}
+//print(x ?? "nil")
+if let a = stringNumber2.first,let b = Int(a) {
+    print(b)
+}
+
+extension Optional {
+    func floatMap<U>(transform:(Wrapped)-> U?) -> U? {
+        if let value = self,let transformed = transform(value) {
+            return transformed
+        }
+        return nil
+    }
+}
+
+let number3 = ["1","2","3","foo"]
+var sum = 0
+for case let i? in number3.map({Int($0)}) {
+    sum += i
+}
+print(sum)
+
+// 使用 ?? 来把 nil 替换成 0
+print(number3.map({Int($0)}).reduce(0, {$0 + ($1 ?? 0)}))
 
 
+func flatten<S:Sequence,T>(source:S) -> [T] where S.Element == T? {
+    let filtered = source.lazy.filter { $0 != nil}
+    return filtered.map({$0!})
+}
 
+extension Sequence {
+    func flatMap<U>(transform:(Element)->U?) -> [U] {
+        return flatten(source: self.lazy.map(transform))
+    }
+}
 
+// 可选值判等
+// 使用一个非可选值的时候，如果需要匹配可选值类型，Swift总是会将它升级
+// 为一个可选值然后使用
+
+var dictWithNils:[String:Int?] = [
+    "one":1,
+    "two":2,
+    "none":nil
+]
+dictWithNils["two"] = Optional(nil)
+print(dictWithNils)
+// 不是赋值，而是将two移除
+dictWithNils["two"] = nil
+print(dictWithNils)
+// 不做任何操作
+dictWithNils["three"]? = nil // 没有被更新
+print(dictWithNils)
+//print(dictWithNils.index(forKey: "three"))
+//(dictWithNils)
+
+// 强制解包的时机
+let ages = [
+    "Tim": 53, "Angela": 54, "Craig": 44,
+    "Jony": 47, "Chris": 37, "Michael": 34,
+]
+//  不知道为什么下面这个代码会报错
+//ages.keys.filter{name in
+//    ages[name]! < 50
+//}.sort()
 
 
 
