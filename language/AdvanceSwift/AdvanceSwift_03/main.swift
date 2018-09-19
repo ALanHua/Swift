@@ -362,8 +362,30 @@ let ages = [
 //    ages[name]! < 50
 //}.sort()
 
+// 改进强制解包的错误信息
 
+infix operator !!
 
+func !!<T>(wrapped:T?,failureText:@autoclosure ()->String) -> T {
+    if let x = wrapped {
+        return x
+    }
+    fatalError(failureText())
+}
+
+infix operator !?
+func !?<T:ExpressibleByIntegerLiteral>(wrapped:T?,failureText:@autoclosure()->String) -> T {
+    assert(wrapped != nil,failureText())
+    return wrapped ?? 0
+}
+
+let s2 = "foo"
+//let i = Int(s2) !! "\(s)"
+//print(i)
+
+let s3 = "foo"
+let i = Int(s3) !? "\(s3)"
+print(i)
 
 
 
