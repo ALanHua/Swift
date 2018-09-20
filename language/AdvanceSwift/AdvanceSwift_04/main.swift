@@ -108,11 +108,116 @@ d.append(contentsOf: other)
 print(d)
 print(e)
 
+final class Box<A> {
+    var unbox:A
+    init(_ value:A) {
+        self.unbox = value
+    }
+}
 
+var x3 = Box(NSMutableData())
+print(isKnownUniquelyReferenced(&x3))
+var y2 = x3
+print(isKnownUniquelyReferenced(&x3))
 
+struct MyData {
+    private var _data:Box<NSMutableData>
+    fileprivate var _dataForWriting:NSMutableData{
+        mutating get{
+            if !isKnownUniquelyReferenced(&_data) {
+                _data = Box(_data.unbox.mutableCopy() as! NSMutableData)
+                print("making a copy")
+            }
+            return _data.unbox
+        }
+    }
+    init() {
+        _data = Box(NSMutableData())
+    }
+    
+    init(_ data:NSData) {
+        _data = Box(data.mutableCopy() as! NSMutableData)
+    }
+    
+}
+extension MyData {
+    mutating func append(_ byte:UInt8) {
+        var mutableByte = byte
+        _dataForWriting.append(&mutableByte, length: 1)
+    }
+}
 
+//let theData = NSData(base64Encoded: "andy")!
+//var x = MyData(theData)
+//let y = x
+//print(x._data. === y._data)
+//x.append(0x55)
+//print(x._data === y._data)
 
+var bytes = MyData()
+var copy = bytes
 
+for byte in 0..<5 as CountableRange<UInt8> {
+    print("ox\(String(byte,radix:16))")
+    bytes.append(byte)
+}
+
+// 写是复制的陷阱
+final class Empty{}
+struct COWStruct {
+    var ref = Empty()
+    mutating func change() -> String {
+        if isKnownUniquelyReferenced(&ref) {
+            return "No copy"
+        }else{
+            return "copy"
+        }
+    }
+}
+
+var s = COWStruct()
+print(s.change())
+var copy2 = s
+print(s.change())
+
+struct ContainerStruct<A> {
+    var storage: A
+    subscript(s:String)->A{
+        get {return storage}
+        set {storage = newValue}
+    }
+}
+
+var d2 = ContainerStruct(storage: COWStruct())
+print(d2.storage.change())
+print(d2["test"].change())
+
+// 闭包和可变性
+var i = 0
+func uniqueInteger() -> Int {
+    i += 1
+    return i
+}
+
+let otherFunction:()->Int = uniqueInteger
+
+func uniqueIntegerProvider() -> ()->Int {
+    var i = 0
+    return {
+        i += 1
+        return i
+    }
+}
+
+// swift 的结构体一般存储在栈上，不过对于可变结构体，默认存储在堆上
+// 被闭包捕获的变量需要在栈帧之外依然存在
+func uniqueIntegerProvider2() -> AnyIterator<Int> {
+    var i = 0
+    return AnyIterator{
+        i += 1
+        return i
+    }
+}
 
 
 
