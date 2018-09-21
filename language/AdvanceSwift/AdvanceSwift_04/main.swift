@@ -219,6 +219,31 @@ func uniqueIntegerProvider2() -> AnyIterator<Int> {
     }
 }
 
+// 内存值类型
+struct Person {
+    let name: String
+    var parents:[Person]
+}
+var john = Person(name: "andy", parents: [])
+john.parents = [john]
+print(john)
+// weak 引用
+// weak 引用的变量可以变为nil，所以他们必须是可选值类型
+// 对于每个unowned的引用,swift运行时将为这个对象维护另一个引用计数
+// 当所有的strong引用消失时，对象将把它的资源释放掉，引用消失时
+// 这部分内存将被标记为僵尸内存，运行时访问就会错误
+
+let handle = FileHandle(forReadingAtPath: "out.html")
+let request = URLRequest(url: URL(string: "www.baidu.com")!)
+URLSession.shared.dataTask(with: request) { (data, _, _) in
+    guard let theData = data else{
+        return
+    }
+    print("completed!")
+    handle?.write(theData)
+}.resume()
+
+
 
 
 
