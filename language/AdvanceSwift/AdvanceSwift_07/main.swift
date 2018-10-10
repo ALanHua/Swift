@@ -88,3 +88,92 @@ print([1,2,3].map({ i in
 print([1,2,3].map({ $0 * 2}))
 print([1,2,3].map(){ $0 * 2})
 print([1,2,3].map{$0 * 2})
+
+print((0..<3).map{ _ in
+    arc4random()
+})
+
+// 显示指定变量类型时，你不一定要在闭包表达式内部指定
+let isEven = {$0 % 2 == 0}
+let isEvenAlt = {
+    (i:Int8) -> Bool in
+    i % 2 == 0
+}
+// 也可以在闭包的上下文里提供这些信息
+let isEvenAlt2:(Int8) -> Bool = {
+    $0 % 2 == 0
+}
+
+let isEvenAlt3 = {$0 % 2 == 0} as (Int8) -> Bool
+
+// 定义一个队所有整数类型都适用的isEven
+extension BinaryInteger {
+    var isEven: Bool {
+        return self % 2 == 0
+    }
+}
+// 声明一个函数
+func isEven<T:BinaryInteger>(_ i : T) -> Bool {
+    return i % 2 == 0
+}
+
+/*** 函数的灵活性 */
+let myArray = [3,2,1]
+print(myArray.sorted())
+// 降序
+print(myArray.sorted(by: >))
+var numberStrings = [(2,"two"),(1,"one"),(3,"three")]
+print(numberStrings.sorted(by: <))
+// 复杂的排序
+let animals = ["elephant", "zebra", "dog"]
+let animalsSorted = animals.sorted { (lhs, rhs) -> Bool in
+    let l = lhs.reversed()
+    let r = rhs.reversed()
+    return l.lexicographicallyPrecedes(r)
+}
+print(animalsSorted)
+
+
+//@objcMember 标记的类将在Object-C中可见
+@objcMembers
+final class Person:NSObject {
+    let first:String
+    let last:String
+    let yearOfBirth:Int
+    
+    init(first:String,last:String,yearOfBirth:Int) {
+        self.first = first
+        self.last  = last
+        self.yearOfBirth = yearOfBirth
+    }
+    
+}
+
+let people = [
+    Person(first: "Emily", last: "Young", yearOfBirth: 2002),
+    Person(first: "David", last: "Gray", yearOfBirth: 1991),
+    Person(first: "Robert", last: "Barnes", yearOfBirth: 1985),
+    Person(first: "Ava", last: "Barnes", yearOfBirth: 2000),
+    Person(first: "Joanne", last: "Miller", yearOfBirth: 1994),
+    Person(first: "Ava", last: "Barnes", yearOfBirth: 1998),
+]
+
+let lastDescriptor = NSSortDescriptor(key: #keyPath(Person.last), ascending: true, selector: #selector(NSString.localizedCompare(_:)))
+let firstDescriptor = NSSortDescriptor(key: #keyPath(Person.first),
+                                          ascending: true,
+                                          selector: #selector(NSString.localizedStandardCompare(_:)))
+let yearDescriptor = NSSortDescriptor(key: #keyPath(Person.yearOfBirth),
+    ascending: true)
+let descriptors = [lastDescriptor, firstDescriptor, yearDescriptor]
+(people as NSArray).sortedArray(using: descriptors)
+print(people)
+
+// swift 实现
+var strings = ["Hello", "hallo", "Hallo", "hello"]
+strings.sort {$0.localizedStandardCompare($1) == .orderedAscending}
+print(strings)
+
+// 函数作为数据
+typealias SortDescriptor<Value> = (Value,Value) -> Bool
+
+
