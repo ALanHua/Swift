@@ -176,4 +176,50 @@ print(strings)
 // 函数作为数据
 typealias SortDescriptor<Value> = (Value,Value) -> Bool
 
+// 好复杂的一个函数
+func sortDescriptor<Value,Key>(key:@escaping (Value) -> Key,
+                               ascending:Bool = true,
+                               by compartor:@escaping (Key) -> (Key)
+        -> ComparisonResult) -> SortDescriptor<Value>{
+            return {
+                (lhs,rhs) in
+                let order:ComparisonResult = ascending ? .orderedAscending : .orderedDescending
+                return compartor(key(lhs))(key(rhs)) == order
+            }
+}
+
+let sortByFirstName:SortDescriptor<Person> = sortDescriptor(key: { $0.first
+}, by: String.localizedStandardCompare)
+
+print(people.sorted(by: sortByFirstName))
+
+
+// 可以写一个自定义的运算符，来合并两个排序函数
+/**
+ 和逻辑 || && 一个优先组
+ */
+infix operator <||>: LogicalDisjunctionPrecedence
+func <||><A>(lhs:@escaping (A,A) -> Bool,rhs:@escaping (A,A) -> Bool) -> (A,A) ->Bool {
+    return {(x,y) in
+        if lhs(x,y) {
+            return true
+        }
+        if lhs(y,x) {
+            return false
+        }
+        if rhs(x,y) {
+            return true
+        }
+        return false
+    }
+}
+
+// 局部函数和变量捕获
+extension Array where Element:Comparable {
+    private mutating func merge(lo:Int,mi:Int,hi:Int) {
+        //  MARK:明天实现
+    }
+}
+
+
 
