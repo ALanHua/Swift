@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 func printInt(i:Int) {
     print("you passed \(i)")
@@ -218,8 +219,238 @@ func <||><A>(lhs:@escaping (A,A) -> Bool,rhs:@escaping (A,A) -> Bool) -> (A,A) -
 extension Array where Element:Comparable {
     private mutating func merge(lo:Int,mi:Int,hi:Int) {
         //  MARK:明天实现
+        var tmp:[Element] = []
+        var i = lo,j = mi
+        while i != mi && j != hi {
+            if self[j] < self[i] {
+                tmp.append(self[j])
+                j += 1
+            }else{
+                tmp.append(self[i])
+                i += 1
+            }
+        }
+        
+        // 看左右两边那边退出了，就将另一边的数据加到数组中
+        tmp.append(contentsOf: self[i..<mi])
+        tmp.append(contentsOf: self[j..<hi])
+        
+        //  交换数组
+        replaceSubrange(lo..<hi, with: tmp)
+    }
+    
+    /// 非递归版本
+    mutating func mergeSortInPlaceInefficient(){
+        let n = count
+        var size = 1
+        while size < n {
+            for lo in stride(from: 0, to: n-size, by: size * 2){
+                merge(lo: lo, mi: (lo + size), hi: Swift.min(lo + size * 2,n))
+            }
+            size *= 2
+        }
+    }
+    // 闭包通过引用的方式来捕获变量
+    mutating func mergeSortInPlace() {
+        var tmp:[Element] = []
+        // 并且确保它的大小g足够
+        tmp.reserveCapacity(count)
+        func merge(lo:Int,mi:Int,hi:Int){
+            tmp.removeAll(keepingCapacity: true)
+            var i = lo,j = mi
+            while i != mi && j != hi {
+                if self[j] < self[i] {
+                    tmp.append(self[j])
+                    j += 1
+                }else{
+                    tmp.append(self[i])
+                    i += 1
+                }
+            }
+            tmp.append(contentsOf: self[i..<mi])
+            tmp.append(contentsOf: self[j..<hi])
+            replaceSubrange(lo..<hi, with: tmp)
+        }
+        let n = count
+        var size = 1
+        while size < n {
+            for lo in stride(from: 0, to: n-size, by: size * 2){
+                merge(lo: lo, mi: (lo + size), hi: Swift.min(lo + size * 2,n))
+            }
+            size *= 2
+        }
     }
 }
 
+// 函数作为代理,代理和协议的模式中不适合使用结构体
+protocol AlertViewDelegate:AnyObject {
+    func buttonTapped(atIndex:Int)
+}
 
+class AlertView {
+    var buttons:[String]
+    weak var delegate:AlertViewDelegate?
+    // 使用存储回调函数的属性来替换原来的代理属性
+    var buttonTapped:((_ buttonIndex:Int) -> ())?
+    
+    init(buttons:[String] = ["OK","Cancel"]) {
+        self.buttons = buttons
+    }
+    func fine() {
+        delegate?.buttonTapped(atIndex: 1)
+    }
+    func fine2() {
+        buttonTapped?(1)
+    }
+}
 
+//  inout 参数和可变方法
+func increment(value:inout Int)  {
+    value += 1
+}
+
+var i = 0
+increment(value: &i)
+print(i)
+// 实际上,对于所有的下标，只要它同时拥有get 和 set 两个方法，这都是适用的
+
+struct Point {
+    var x :Int
+    var y :Int
+    
+}
+
+var point = Point(x: 0, y: 0)
+increment(value: &point.x)
+print(point)
+
+// 如果一个属性是只读的，我们不能将其用于inout
+// 运算符也可以接受inout值，但为了简化，在调用时
+postfix func ++(x:inout Int){
+    x += 1
+}
+point.x++
+print(point)
+
+// 嵌套函数和inout
+func incrementTheTimes(value:inout Int) {
+    func inc(){
+        value += 1
+    }
+    for _ in 0..<10 {
+        inc()
+    }
+}
+
+var x = 0
+incrementTheTimes(value: &x)
+print(x)
+// & 不意味inout的情况
+
+func incref(pointer:UnsafeMutablePointer<Int>) -> ()->Int {
+    return {
+        pointer.pointee += 1
+        return pointer.pointee
+    }
+}
+
+let fun:()->Int
+do {
+    var array = [0]
+    fun = incref(pointer: &array)
+}
+print(fun())
+
+// 计算属性
+struct GPSTrack {
+    // 外部只读，内部读写
+    private(set) var record:[(CLLocation,Date)] = []
+}
+
+extension GPSTrack {
+//  创建一个计算属性
+    var timestamps:[Date] {
+        return record.map{ $0.1}
+    }
+}
+
+// 观察变更
+class Roboto {
+    enum State {
+        case stopped,movingForward,turningRight,turningLeft
+    }
+    var state = State.stopped
+}
+
+class ObservableRobot: Roboto {
+    override var state: State{
+        willSet{
+            print("状态从\(state) 迁移到 \(newValue)")
+        }
+    }
+}
+
+var robot = ObservableRobot()
+robot.state = .movingForward
+
+// 延迟存储属性,该属性会被自动声明为var，
+struct Point2 {
+    var x : Double
+    var y : Double
+    private(set) lazy var distanceFromOrigin:Double = (x*x + y*y).squareRoot()
+    init(x: Double,y:Double) {
+        self.x = x
+        self.y = y
+    }
+}
+
+var point2 = Point2(x: 3, y: 4)
+print(point2.distanceFromOrigin)
+point2.x += 10
+print(point2.distanceFromOrigin)
+
+// 下标
+let fibs = [0,1,1,2,3,5]
+let first = fibs[0]
+print(first)
+print(fibs[1..<3])
+
+extension Collection {
+    subscript(indices indexList:Index...) -> [Element] {
+        var result:[Element] = []
+        for index in indexList {
+            result.append(self[index])
+        }
+        return result
+    }
+}
+
+print(Array("abcdefghijkmnopqrstuvwxyz")[indices:7,4,1,11,11,14])
+
+// 下标进阶
+var japan : [String:Any] = [
+    "name": "Japan",
+    "capital": "Tokyo",
+    "population": 126_740_000,
+    "coordinates": [
+    "latitude": 35.0,
+    "longitude": 139.0
+    ]
+]
+
+extension Dictionary {
+    subscript<Result>(key:Key,as type: Result.Type) -> Result?{
+        get{
+            return self[key] as? Result
+        }
+        set{
+            guard let value = newValue as? Value else {
+                return
+            }
+            self[key] = value
+        }
+    }
+}
+
+japan["coordinates",as:[String:Double].self]?["latitude"] = 36.0
+print(japan["coordinates"]!)
