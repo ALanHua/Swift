@@ -79,4 +79,71 @@ func log(ifFile condition:Bool,message:@autoclosure () ->(String),
 
 // @escaping 标注 ，闭包默认是非逃逸的
 
+// withoutActuallyEscaping
+extension Array {
+    // 该方法 lazy 集合表示上的filter 接受y的是一个逃逸闭包
+//    func all(matching predicate:(Element) -> Bool) -> Bool {
+//        return self.lazy.filter({ predicate($0)
+//        })
+//    }
+    func all(matching predicate:(Element) -> Bool) -> Bool{
+        return withoutActuallyEscaping(predicate, do: {
+            escapablePredicate in
+            self.lazy.filter({ !escapablePredicate($0)
+            }).isEmpty
+        })
+    }
+}
+
+let areAllOneDigit = [1,2,3,4].all { $0 < 10}
+print(areAllOneDigit)
+
+// 字符串
+let single = "Pok\u{00e9}mon"
+let double = "Poke\u{0301}mon"
+print(single.count)
+print(double.utf16.count)
+print(single.utf16.count)
+
+let crlf = "\r\n"
+print(crlf.count)
+// 颜文字
+let oneEmoji = "😂"
+print(oneEmoji.count)
+
+let flags = "🇧🇷🇳🇿"
+let flags2 = flags.unicodeScalars.map {
+    "U+\(String($0.value,radix:16,uppercase:true))"
+}
+print(flags.count)
+print(flags2)
+
+// 字符串和集合
+extension String {
+//    O(1)
+    var allPrefixes1:[Substring] {
+        return (0...self.count).map(self.prefix)
+    }
+//    O(1)
+    var allPrefixes2:[Substring] {
+        return [""] + self.indices.map({ (index) in
+            self[...index]
+        })
+    }
+    
+}
+
+let hello = "Hello"
+print(hello.allPrefixes1)
+print(hello.allPrefixes2)
+
+// 范围可替换，而h非可变
+var greeting = "Hello,world"
+if let comma = greeting.index(of:","){
+    print(greeting[..<comma])
+    greeting.replaceSubrange(comma..., with: " again")
+}
+print(greeting)
+
+// 字符串索引
 
