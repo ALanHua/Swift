@@ -146,4 +146,26 @@ if let comma = greeting.index(of:","){
 print(greeting)
 
 // 字符串索引
+let s = "abcdef"
+let second = s.index(after: s.startIndex)
+print(s[second])
 
+let sixth = s.index(second, offsetBy: 4)
+print(s[sixth])
+
+let safeIdx = s.index(s.startIndex, offsetBy: 400, limitedBy: s.endIndex)
+//print(safeIdx)
+print(s.prefix(4))
+
+// 遍历字符串
+for (i,c) in s.enumerated() {
+    print("\(i),\(c)")
+}
+// 查找特定字符
+var hello2 = "Hello!"
+if let idx = hello2.index(of:"!"){
+    hello2.insert(contentsOf: " andy", at: idx)
+}
+print(hello2)
+
+// 子字符串
