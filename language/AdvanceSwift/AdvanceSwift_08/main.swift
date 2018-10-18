@@ -168,4 +168,60 @@ if let idx = hello2.index(of:"!"){
 }
 print(hello2)
 
-// 子字符串
+// 子字符串(Substring) 和 ArraySlice很相似
+let sentence = "The quick brown fox jumped over the lazy dog."
+let firstSpace = sentence.index(of:" ") ?? sentence.endIndex
+let firstWord = sentence[..<firstSpace]
+print(firstWord)
+print(type(of:firstSpace))
+
+let poem = """
+Over the wintry
+forest, winds howl in rage
+with no leaves to blow.
+"""
+let lines = poem.split(separator: "\n")
+print(lines)
+
+extension String {
+    
+    /// 切分字符串
+    /// - Parameter after:多少个数一切分
+    /// - Returns: 切分好的字符串
+    func wrapped(after:Int = 70) -> String {
+        var i = 0
+        let lines = self.split(omittingEmptySubsequences: false) { (character)  in
+            switch character {
+            case "\n",
+                 " " where i >= after:
+                i = 0
+                return true
+            default:
+                i += 1
+                return false
+            }
+        }
+        return lines.joined(separator: "\n")
+    }
+}
+print(sentence.wrapped(after: 15))
+
+// 接受h含义多个分隔符的序列版本
+
+extension Collection where Element:Equatable {
+    func split<S:Sequence>(separators:S) -> [SubSequence]
+    where Element == S.Element{
+        return split{separators.contains($0)}
+    }
+}
+
+print("Hello,world!".split(separators: ",!"))
+// StringProtocol
+
+func lastWord(in input:String) -> String? {
+    let words = input.split(separators:",")
+    guard let lastWord = words.last else {
+        return nil
+    }
+    return String(lastWord)
+}
