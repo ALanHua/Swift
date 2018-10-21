@@ -282,5 +282,93 @@ if let linkRange = formatted.string.range(of: "Click here"){
 }
 
 // 字符范围
+extension Unicode.Scalar:Strideable {
+    public typealias Stride = Int
+    
+    public func distance(to other: Unicode.Scalar) -> Int {
+        return Int(other.value) - Int(self.value)
+    }
+    
+    public func advanced(by n: Int) -> Unicode.Scalar {
+        return Unicode.Scalar(UInt32(Int(value) + n))!
+    }
+}
 
+let lowercase = ("a" as Unicode.Scalar)..."z"
+print(Array(lowercase.map(Character.init)))
+//  CharacterSet -- UnicodeScalarSet
+let favoriteEmoji = CharacterSet("👩‍🚒👨‍🎤".unicodeScalars)
+print(favoriteEmoji.contains("🚒"))
 
+// UnicodeScalarView上利用CharacterSet实现将字符串分割为单词
+// alphanumerics 字母或者数字
+extension String {
+    func words(with charset:CharacterSet = .alphanumerics) -> [Substring] {
+        return self.unicodeScalars.split{
+            !charset.contains($0)
+        }.map(Substring.init)
+    }
+}
+let code = "struct1 Array<Element>: Collection { }"
+print(code.words())
+
+// String 和 Character的内部结构
+/*
+ String在内存中的表示，使用的是8位的ASCLL/UTF-16
+ Character 代表了一个标量序列，二这个序列的长度可能会是任意的
+ */
+// 简单的正则表达式匹配器
+public struct Regex{
+    private let regexp:String
+    public init(_ regexp:String){
+        self.regexp = regexp
+    }
+}
+
+extension Regex {
+    public static func matchHere(regexp:Substring,text:Substring)->Bool{
+        if regexp.isEmpty {
+            return true
+        }
+        /**
+         略
+        */
+        return false
+    }
+    public func match(_ text:String) -> Bool {
+        if regexp.first == "^" {
+            return Regex.matchHere(regexp: regexp.dropFirst(), text: text[...])
+        }
+        var idx = text.startIndex
+        while true {
+            if Regex.matchHere(regexp: regexp[...], text: text.suffix(from: idx)){
+                return true
+            }
+            guard idx != text.endIndex else{
+                break
+            }
+            text.formIndex(after: &idx)
+        }
+        return false
+    }
+}
+// 添加字面量初始化协议
+extension Regex:ExpressibleByStringLiteral {
+    public init(stringLiteral value: String) {
+        regexp = value
+    }
+}
+
+// CustomStringConvertible
+extension Regex:CustomStringConvertible{
+    public var description: String{
+        return "/\(regexp)"
+    }
+}
+// CustomDebugStringConvertible 输出更多信息
+extension Regex:CustomDebugStringConvertible {
+    public var debugDescription: String{
+        return "{expression:\(regexp)}"
+    }
+}
+// 文本输出流
