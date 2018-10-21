@@ -225,3 +225,62 @@ func lastWord(in input:String) -> String? {
     }
     return String(lastWord)
 }
+
+let commaSeparatedNumbers = "1,2,3,4,5"
+let numbers = commaSeparatedNumbers.split(separator:",").compactMap{Int($0)}
+print(numbers)
+
+// 编码单元视图
+/**
+ unicodeScalars,utf16和utf8 和String 一样
+ */
+let tweet = "Having ☕️ in a cafe\u{301} in 🇫🇷 and enjoying the ☀️."
+let characterCount = tweet.precomposedStringWithCompatibilityMapping.unicodeScalars.count
+print(characterCount)
+print(tweet.count)
+let utf8Bytes = Data(tweet.utf8)
+print(utf8Bytes)
+// 主要utf8集合不包括含尾部的null字节，如果你需要一个以null结尾的
+// 表示的话，可以使用String的withCString方法或者utfCString 属性
+let nullTerminalUTF8 = tweet.utf8CString
+print(nullTerminalUTF8.count)
+// Foundation的api会将字符串看作UTF-16
+// 非随机访问
+// 共享索引
+let pokemon = "Poke\u{301}mon"
+if let index = pokemon.index(of:"é") {
+    let scalar = pokemon.unicodeScalars[index]
+    print(String(scalar))
+}
+let family = "👨‍👩‍👧‍👦"
+
+// swift 4 的bug
+if let accentIndex = pokemon.unicodeScalars.index(of:"\u{301}"){
+    print(accentIndex.samePosition(in: pokemon))
+}
+
+let noCharacterBoundary = family.utf16.index(family.utf16.startIndex,offsetBy:3)
+print(noCharacterBoundary.encodedOffset)
+
+// 寻找Character边界起始位置的可靠方式是用Foundationh中的rangeOfComposedCharacterSequence
+extension String.Index {
+    func samePositionOnCharacterBoundary(in str:String) -> String.Index {
+        let range = str.rangeOfComposedCharacterSequence(at: self)
+        return range.lowerBound
+    }
+}
+
+let validIndex = noCharacterBoundary.samePositionOnCharacterBoundary(in: family)
+print(family[validIndex])
+// 字符串和Foundation
+let text = "👉 Click here for more info."
+let linkTarget = URL(string: "https://www.youtube.com/watch?v=DLzxrzFCyOs")!
+let formatted = NSMutableAttributedString(string: text)
+if let linkRange = formatted.string.range(of: "Click here"){
+    let nsRange = NSRange(linkRange,in:formatted.string)
+    formatted.addAttribute(.init("link"), value: linkTarget, range: nsRange)
+}
+
+// 字符范围
+
+
