@@ -372,3 +372,111 @@ extension Regex:CustomDebugStringConvertible {
     }
 }
 // 文本输出流
+var s1 = ""
+let numbers1 = [1,2,3,4]
+
+print(numbers, to: &s1)
+print(s1)
+
+var printCapture = ""
+_playgroundPrintHook = {
+    text in
+    printCapture += text
+}
+
+print("This is supposed to only go to stdout")
+print(printCapture)
+
+// 创建自己的输出流
+struct ArrayStream:TextOutputStream {
+    var buffer:[String] = []
+    mutating func write(_ string: String) {
+        buffer.append(string)
+    }
+}
+
+var stream = ArrayStream()
+print("hello", to: &stream)
+print("world", to: &stream)
+print(stream.buffer)
+
+extension Data:TextOutputStream {
+    public mutating func write(_ string: String) {
+        self.append(contentsOf: string.utf8)
+    }
+}
+var utf8Data = Data()
+var string = "cafe"
+print(utf8Data.write(string))
+
+protocol Queue {
+    associatedtype Element
+    mutating func enqueue(_ newElement:Element)
+    mutating func dequeue()->Element?
+}
+
+struct FIFOQueue<Element>:Queue {
+    private var left:[Element] = []
+    private var right:[Element] = []
+    // 将元素添加到队列最后
+    // - 复杂度为O(1）
+    mutating func enqueue(_ newElement: Element) {
+        right.append(newElement)
+    }
+    // 将队列前端移除一个元素
+    // - 复杂度为 平摊O(1）
+    //   需要使用银行家理论来分析平摊复杂度
+    mutating func dequeue() -> Element? {
+        if left.isEmpty {
+            left = right.reversed()
+            right.removeAll()
+        }
+        return left.popLast()
+    }
+    
+}
+
+extension FIFOQueue:Collection {
+    subscript(position: Int) -> Element {
+        precondition((0..<endIndex).contains(position), "Index out of boounds")
+        if position < left.endIndex {
+            return left[left.count - 1 - position]
+        }else {
+            return right[position - left.count]
+        }
+    }
+    
+    public var startIndex:Int{
+        return 0
+    }
+    
+    public var endIndex:Int {
+        return left.count + right.count
+    }
+    
+    func index(after i: Int) -> Int {
+        precondition(i < endIndex)
+        return i + 1
+    }
+    
+}
+
+extension FIFOQueue:ExpressibleByArrayLiteral{
+    public init(arrayLiteral elements: Element...) {
+        left  = elements.reversed()
+        right = []
+    }
+}
+
+extension FIFOQueue:TextOutputStreamable {
+    func write<Target>(to target: inout Target) where Target : TextOutputStream {
+        target.write("[")
+        target.write(map{String(describing: $0)}.joined(separator: ","))
+        target.write("]")
+    }
+}
+
+var textRepresentation = ""
+let queue:FIFOQueue = [1,2,3]
+queue.write(to: &textRepresentation)
+print(textRepresentation)
