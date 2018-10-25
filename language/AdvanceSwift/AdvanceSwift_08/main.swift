@@ -480,3 +480,63 @@ var textRepresentation = ""
 let queue:FIFOQueue = [1,2,3]
 queue.write(to: &textRepresentation)
 print(textRepresentation)
+
+struct SlowStreamer:TextOutputStreamable,ExpressibleByArrayLiteral {
+    let contexts:[String]
+    
+    init(arrayLiteral elements: String...) {
+        contexts = elements;
+    }
+    
+    func write<Target>(to target: inout Target) where Target : TextOutputStream {
+        for x in contexts {
+            target.write(x)
+            target.write("\n")
+            sleep(1)
+        }
+    }
+    
+}
+
+let slow:SlowStreamer = [
+    "You'll see that this gets",
+    "written slowly line by line",
+    "to the standard output",
+]
+
+print(slow)
+
+struct StdErr:TextOutputStream {
+    mutating func write(_ string: String) {
+        guard !string.isEmpty else {
+            return
+        }
+        // 可以传递c字符串
+        fputs(string, stderr)
+    }
+}
+
+var standarderror = StdErr()
+print("oops",to:&standarderror)
+
+// 多个流连接起来
+struct ReplaceingStream:TextOutputStream,TextOutputStreamable {
+    let toReplace:DictionaryLiteral<String,String>
+    private var output = ""
+    
+    init(replacing toReplace:DictionaryLiteral<String,String>) {
+        self.toReplace = toReplace
+    }
+    
+    mutating func write(_ string: String) {
+        let toWrite = toReplace.reduce(string) { (partialResult, pair) in
+            /*替换所有重复出现的字符串*/
+            partialResult.replacingOccurrences(of: pair.key, with: pair.value)
+        }
+        print(toWrite, terminator: "", to: &output);
+    }
+    
+    func write<Target>(to target: inout Target) where Target : TextOutputStream {
+        output.write(to: &target)
+    }
+}
