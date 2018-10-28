@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B82C38622185E57E00A3D008 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82C38612185E57E00A3D008 /* main.swift */; };
 		B83D2F47213C2C960059E99D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83D2F46213C2C960059E99D /* main.swift */; };
 		B83D2F542142CB2C0059E99D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83D2F532142CB2C0059E99D /* main.swift */; };
 		B8B653BD21496FE300C809E0 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B653BC21496FE300C809E0 /* main.swift */; };
@@ -17,6 +18,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		B82C385D2185E57E00A3D008 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		B83D2F41213C2C960059E99D /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -83,6 +93,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B82C385F2185E57E00A3D008 /* AdvanceSwift_09 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AdvanceSwift_09; sourceTree = BUILT_PRODUCTS_DIR; };
+		B82C38612185E57E00A3D008 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		B83D2F43213C2C960059E99D /* AdvanceSwift */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AdvanceSwift; sourceTree = BUILT_PRODUCTS_DIR; };
 		B83D2F46213C2C960059E99D /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		B83D2F512142CB2C0059E99D /* AdvanceSwift_02 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AdvanceSwift_02; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,6 +112,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		B82C385C2185E57E00A3D008 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B83D2F40213C2C960059E99D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -152,6 +171,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B82C38602185E57E00A3D008 /* AdvanceSwift_09 */ = {
+			isa = PBXGroup;
+			children = (
+				B82C38612185E57E00A3D008 /* main.swift */,
+			);
+			path = AdvanceSwift_09;
+			sourceTree = "<group>";
+		};
 		B83D2F3A213C2C960059E99D = {
 			isa = PBXGroup;
 			children = (
@@ -162,6 +189,7 @@
 				B8B653D1215541AE00C809E0 /* AdvanceSwift_05 */,
 				B8FF55E5216D05180054F133 /* AdvanceSwift_07 */,
 				B8FF55F02174E1560054F133 /* AdvanceSwift_08 */,
+				B82C38602185E57E00A3D008 /* AdvanceSwift_09 */,
 				B83D2F44213C2C960059E99D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -176,6 +204,7 @@
 				B8B653D0215541AE00C809E0 /* AdvanceSwift_05 */,
 				B8FF55E4216D05180054F133 /* AdvanceSwift_07 */,
 				B8FF55EF2174E1560054F133 /* AdvanceSwift_08 */,
+				B82C385F2185E57E00A3D008 /* AdvanceSwift_09 */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -239,6 +268,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		B82C385E2185E57E00A3D008 /* AdvanceSwift_09 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B82C38652185E57E00A3D008 /* Build configuration list for PBXNativeTarget "AdvanceSwift_09" */;
+			buildPhases = (
+				B82C385B2185E57E00A3D008 /* Sources */,
+				B82C385C2185E57E00A3D008 /* Frameworks */,
+				B82C385D2185E57E00A3D008 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AdvanceSwift_09;
+			productName = AdvanceSwift_09;
+			productReference = B82C385F2185E57E00A3D008 /* AdvanceSwift_09 */;
+			productType = "com.apple.product-type.tool";
+		};
 		B83D2F42213C2C960059E99D /* AdvanceSwift */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B83D2F4A213C2C960059E99D /* Build configuration list for PBXNativeTarget "AdvanceSwift" */;
@@ -368,6 +414,9 @@
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = none;
 				TargetAttributes = {
+					B82C385E2185E57E00A3D008 = {
+						CreatedOnToolsVersion = 10.0;
+					};
 					B83D2F42213C2C960059E99D = {
 						CreatedOnToolsVersion = 9.4.1;
 					};
@@ -410,11 +459,20 @@
 				B8B653CF215541AE00C809E0 /* AdvanceSwift_05 */,
 				B8FF55E3216D05180054F133 /* AdvanceSwift_07 */,
 				B8FF55EE2174E1560054F133 /* AdvanceSwift_08 */,
+				B82C385E2185E57E00A3D008 /* AdvanceSwift_09 */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		B82C385B2185E57E00A3D008 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B82C38622185E57E00A3D008 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B83D2F3F213C2C960059E99D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -474,6 +532,29 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		B82C38632185E57E00A3D008 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		B82C38642185E57E00A3D008 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
 		B83D2F48213C2C960059E99D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -726,6 +807,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		B82C38652185E57E00A3D008 /* Build configuration list for PBXNativeTarget "AdvanceSwift_09" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B82C38632185E57E00A3D008 /* Debug */,
+				B82C38642185E57E00A3D008 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		B83D2F3E213C2C960059E99D /* Build configuration list for PBXProject "AdvanceSwift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -540,3 +540,101 @@ struct ReplaceingStream:TextOutputStream,TextOutputStreamable {
         output.write(to: &target)
     }
 }
+
+// 字符串性能
+
+/**
+ static修饰的类型d继承之后也必须加上static
+ 这样就实现了类型域上的属性及方法
+ */
+protocol StringViewSelector {
+    associatedtype View:Collection
+    static var caret:View.Element{get}
+    static var asterisk:View.Element{get}
+    static var period:View.Element{get}
+    static var dollar:View.Element{get}
+    static func view(from s:String)->View
+}
+
+struct UTF8ViewSelector:StringViewSelector {
+    static var caret:UInt8{
+        return UInt8(ascii: "^");
+    }
+    
+    static var asterisk: UInt8 {
+        return UInt8(ascii: "*");
+    }
+    
+    static var period: UInt8{
+        return UInt8(ascii: ".");
+    }
+    
+    static var dollar: UInt8{
+        return UInt8(ascii: "$");
+    }
+    
+    static func view(from s: String) -> String.UTF8View {
+        return s.utf8
+    }
+}
+
+struct CharacterViewSelector:StringViewSelector {
+    static var caret:Character{
+        return "^";
+    }
+    
+    static var asterisk: Character{
+        return "*";
+    }
+    
+    static var period: Character{
+        return ".";
+    }
+    
+    static var dollar: Character{
+        return "$";
+    }
+    
+    static func view(from s: String) -> String {
+        return s
+    }
+}
+
+struct Regex2<V:StringViewSelector>
+    where V.View.Element:Equatable,
+    V.View.SubSequence: Collection{
+    let regexp:String
+    
+    init(_ regexp:String) {
+        self.regexp = regexp
+    }
+}
+
+extension Regex2 {
+    func match(_ text:String) -> Bool {
+        let text = V.view(from: text)
+        let regexp = V.view(from: self.regexp)
+        
+        // ^ 开头,它只从开头进行匹配
+        if regexp.first == V.caret {
+            return Regex2.matchHere(regexp: regexp.dropFirst(), text: text[...])
+        }
+        var idx = text.startIndex
+        while true {
+            if Regex2.matchHere(regexp: regexp[...], text: text.suffix(from: idx)){
+                return true
+            }
+            guard idx != text.endIndex else{
+                break;
+            }
+            text.formIndex(after: &idx)
+        }
+        
+        return false
+    }
+    
+    private static func matchHere(regexp:V.View.SubSequence,text:V.View.SubSequence) ->Bool{
+        // 略
+        return false
+    }
+}
