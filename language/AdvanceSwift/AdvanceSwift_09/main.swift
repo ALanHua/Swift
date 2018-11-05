@@ -153,3 +153,48 @@ do {
 }
 
 // 错误链
+//func checkFileAndFetchProcessID(filenames:[String]) -> Int {
+//    do {
+//        try filenames.all(matching: checkFile)
+//        let pidString = try contexts(ofFile: "PidFile")
+//        return try Int(pidString).or(error:ReadIntEoor.couldNotRead)
+//    } catch  {
+//        return 42;
+//    }
+//}
+// 链结果
+
+extension Result {
+    func flatMap<B>(transform:(A)->Result<B>) -> Result<B> {
+        switch self {
+        case let .failure(m):
+            return .failure(m)
+        case let .success(x):
+            return transform(x)
+        }
+    }
+}
+// 高阶函数和错误
+// rethrow异常，这表示这个函数本身不会抛出异常，但如果作为参数的闭包抛出了异常，那么它会把异常继续抛上去
+
+
+////////////////////////////////////////////////
+
+// 泛型
+// 运算符重载
+precedencegroup ExponentiationPrecedence{
+    associativity:left
+    higherThan:MultiplicationPrecedence
+}
+
+infix operator **:ExponentiationPrecedence
+
+func **(lhs:Double,rhs:Double) -> Double {
+    return pow(lhs, rhs)
+}
+
+func **(lhs:Float,rhs:Float) -> Float {
+    return powf(lhs, rhs)
+}
+
+print(2.0 ** 3.0)
