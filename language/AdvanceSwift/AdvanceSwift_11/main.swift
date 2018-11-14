@@ -12,6 +12,8 @@ import Foundation
 protocol Drawing {
     mutating func addEllipse(rect:CGRect,fill:CGColor)
     mutating func addRectangle(rect:CGRect,fill:CGColor)
+//    实现动态派发
+    mutating func addCircle(center:CGPoint,radius:CGFloat,fill fillColor:CGColor)
 }
 
 extension CGContext:Drawing{
@@ -28,6 +30,7 @@ extension CGContext:Drawing{
 
 // 协议扩展
 extension Drawing{
+//    静态派发
     mutating func addCircle(center:CGPoint,radius:CGFloat,fill fillColor:CGColor){
         let diameter = radius * 2
         let origin = CGPoint(x: center.x - radius , y: center.y - radius)
@@ -39,4 +42,13 @@ extension Drawing{
     }
 }
 // 协议扩展中重新方法
+
+struct ConstantIterator:IteratorProtocol {
+    typealias Element = Int
+    mutating func next() -> Int?{
+        return 1
+    }
+}
+
+// 带有Self的协议
 
