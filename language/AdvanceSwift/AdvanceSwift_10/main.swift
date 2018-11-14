@@ -126,3 +126,46 @@ extension RandomAccessCollection where Element:Comparable{
         return binarySearch(for: value,areInIncreaseingOrder: <)
     }
 }
+
+let a = ["a", "b", "c", "d", "e", "f", "g"]
+let r = a.reversed()
+print(r)
+print(r.binarySearch(for: "g", areInIncreaseingOrder:>) == r.startIndex)
+
+// 集合随机排列
+extension Array{
+    mutating func shuffled(){
+        for i in 0..<(count - 1) {
+            let j = Int(arc4random_uniform(UInt32(count-i)))
+            self.swapAt(i, j);
+        }
+    }
+    
+    func shuffle() -> [Element] {
+        var clone = self
+        clone.shuffled()
+        return clone
+    }
+}
+/**
+ 依赖于RangeReplaceableCollection的两个特性
+ 可以创建一个新的空集合，以及可以将任意序列添加
+ 到空集合
+ @inlinable 构建代码时会让编译器优化
+ */
+extension MutableCollection
+    where Self:RandomAccessCollection,
+          Self:RangeReplaceableCollection{
+    @inlinable func shuffed() -> Self {
+        var clone = Self()
+        clone.append(contentsOf: self)
+        clone.shuffle()
+        return clone
+    }
+}
+// 全局特化
+@_specialize(exported:true,where T == Int)
+@_specialize(exported:true,where T == String)
+public func min<T:Comparable>(_ x:T,_ y:T) -> T{
+    return y < x ? y : x
+}
