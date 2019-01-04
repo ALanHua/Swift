@@ -164,5 +164,97 @@ print(s2)
 // UnsafeMutablePointer
 
 // Function in Function
+// Recursion
+func countDownFrom(_ ix:Int) {
+    print(ix)
+    if ix > 0 {
+        countDownFrom(ix - 1)
+    }
+}
+countDownFrom(5)
+// Function As Value
+func doThis(_ f:()->()) {
+    f()
+}
+func whatToDo(){
+    print("I did it")
+}
+doThis(whatToDo)
 
+typealias VoidVoidFunction = () -> ()
+func dothis(_ f:VoidVoidFunction)  {
+    f()
+}
+// anonymous functions 就是闭包
+func greeting() -> String {
+    return "Howdy"
+}
 
+func performAndPrint(_ f:()->String)  {
+    let s = f()
+    print(s)
+}
+/*
+ 如果匿名函数体只包含一条语句，而该状态包含返回一个带有关键字return的值，
+ 则可以忽略关键字return。换句话说，在期望函数返回值的上下文中，
+ 如果匿名函数体恰好由一个不返回值的expres‐sion组成，Swift假定该表达式的值将从匿名函数返回
+ */
+performAndPrint{
+    greeting()
+}
+
+let arr = [2,4,6,8]
+func doubleMe(i:Int) -> Int {
+    return i * 2
+}
+
+let arr2 = arr.map(doubleMe)
+print(arr2)
+
+let arr3 = arr.map { (i:Int) -> Int in
+    return i * 3
+}
+print(arr3)
+
+let arr4 = arr.map {
+    $0 * 4
+}
+print(arr4)
+// Define-and-Call
+/*
+ 匿名函数使用
+ {
+    // code
+ }()
+ 
+ */
+// Function Returning Function
+// Closure Setting a Captured Variable
+func pass100(_ f:(Int) -> ()) {
+    f(100)
+}
+var x = 0
+print(x)
+func setX(newX:Int){
+    x = newX
+}
+pass100(setX)
+print(x)
+// Closure Preserving Its Captured Environment
+func countAdder(_ f:@escaping () -> ()) -> () -> () {
+   //  we wouldn’t be counting. Instead, ct is initialized to 0 once and then captured by the anonymous function
+    // 值捕获：闭包可以在其被定义的上下文中捕获常量或变量。即使定义这些常量和变量的原作用域已经不存在，闭包仍然可以在闭包函数体内引用和修改这些值。
+    var ct = 0
+    return {
+        ct = ct + 1
+        print("count is \(ct)")
+        f()
+    }
+}
+func greet () {
+    print("howdy")
+}
+let countedGreet = countAdder(greet)
+countedGreet()
+countedGreet()
+countedGreet()
