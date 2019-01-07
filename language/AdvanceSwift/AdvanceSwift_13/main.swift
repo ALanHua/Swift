@@ -258,3 +258,28 @@ let countedGreet = countAdder(greet)
 countedGreet()
 countedGreet()
 countedGreet()
+// 逃逸闭包
+func funcPasser(f: @escaping()->()) -> () ->() {
+    return f
+}
+
+// Curried Functions
+// Function References and Selectors
+class Dog3 {
+    func bark() {
+        // ...
+    }
+    
+    func bark(loudly:Bool) {
+        // ...
+    }
+    
+    func test() {
+        let backFunction = bark as () -> ()
+        backFunction()
+    }
+}
+
+// Function Reference Scope
+// Selectors #selector(...) 调用@objc 修饰的swift函数
+
