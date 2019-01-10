@@ -106,3 +106,29 @@ func flag(country: String) -> String {
     return String(s)
 }
 print(flag(country: "DE"))
+
+let s5 = "hello world"
+// String.capitalized 将字符串每个单词首字母大写
+let s6 = s5.capitalized
+print(s6)
+
+let range = s5.range(of: "ell")
+// Character and String Index
+for c in s5 {
+    print(c,terminator:"");
+}
+
+let c = Character("h")
+let s7 = String(c).uppercased()
+print(s7)
+let c1 = s5.first
+print(c1!)
+let first = s5.firstIndex(of: "l")
+print(first!.encodedOffset)
+// prefix suffix
+var s8 = String(s5.prefix(4))
+print(s8)
+print(String(s5.suffix(3)))
+// 将字符串分割到数组
+let arr = s5.split { $0 == " "}
+print(arr)
