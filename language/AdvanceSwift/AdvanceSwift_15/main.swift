@@ -230,3 +230,191 @@ print(d[1])
 d[1] = 5
 print(d[1])
 
+// Nested Object Types
+class Dog4 {
+    struct Nosie {
+        static var nosie = "woof"
+    }
+    func bark() {
+        print(Dog4.Nosie.nosie)
+    }
+}
+
+// Instance References
+// Enums
+
+enum Filter {
+    case albums
+    case playlists
+    case podcasts
+    case books
+}
+func filterExpecter(_ type: Filter) {
+    if type == .albums {
+        print("it's albums")
+    }
+}
+let type: Filter = .albums
+filterExpecter(.albums)
+
+// Raw Values
+enum PepBoy: Int {
+    case manny
+    case moe
+    case jack
+}
+
+// 编译器会自动转换成字符串
+enum Filter2: String {
+    case albums
+    case playlists
+    case podcasts
+    case books
+}
+
+let albums: Filter2 = .albums
+print(albums.rawValue)
+
+enum Normal: Double {
+    case fahrenheit = 98.6
+    case centigrade = 37
+}
+
+enum PepBoy2 : Int {
+    case manny = 1
+    case moe
+    case jack = 4
+}
+// 这样会有一个问题，当没有这个case的时候，初始化会失败
+let type2 = Filter2(rawValue: "Albums")
+
+// Associated Values
+enum MyError : Equatable{
+    case number(Int)
+    case message(String)
+    case fatal
+}
+
+let err: MyError = .number(4)
+let num = 4
+let err2 : MyError = .number(num)
+
+if err == MyError.number(num) {
+    print(num)
+}
+
+// Enum Case Iteration
+enum Filter3 : String ,CaseIterable{
+    case albums = "Albums"
+    case playlists = "Playlists"
+    case podcasts = "Podcasts"
+    case books = "Audiobooks"
+//    4.2 之后就不需要手动写这部分代码啦，继承CaseIterable就可以啦
+//    static let cases: [Filter2] = [.albums,.playlists,.podcasts,.books]
+}
+
+// Enum Initializers
+enum Filter4 : String ,CaseIterable{
+    case albums = "Albums"
+    case playlists = "Playlists"
+    case podcasts = "Podcasts"
+    case books = "Audiobooks"
+    
+    init(_ ix : Int){
+        // allCases 是一个序列组合
+        self = Filter4.allCases[ix]
+    }
+}
+
+let type_1 = Filter4.albums
+let type_2 = Filter4(rawValue: "Playlists")
+let type_3 = Filter4(2)
+print(type_3.rawValue)
+
+enum Filter5 : String ,CaseIterable{
+    case albums = "Albums"
+    case playlists = "Playlists"
+    case podcasts = "Podcasts"
+    case books = "Audiobooks"
+    
+    init?(_ ix : Int){
+        // allCases 是一个序列组合
+        if !Filter5.allCases.indices.contains(ix) {
+            return nil
+        }
+        self = Filter5.allCases[ix]
+    }
+}
+
+enum Filter6 : String ,CaseIterable{
+    case albums = "Albums"
+    case playlists = "Playlists"
+    case podcasts = "Podcasts"
+    case books = "Audiobooks"
+    
+    init?(_ ix : Int){
+        // allCases 是一个序列组合
+        if !Filter6.allCases.indices.contains(ix) {
+            return nil
+        }
+        self = Filter6.allCases[ix]
+    }
+    init?(_ rawValue: String){
+        self.init(rawValue: rawValue)
+    }
+}
+
+let type6 = Filter6.albums
+let type7 = Filter6(rawValue: "Playlists")
+let type8 = Filter6(2)
+print(type6.rawValue)
+print(type7!.rawValue)
+print(type8!.rawValue)
+
+// Enum Properties
+/**
+ 注意点：
+ 可以有实例属性和静态属性，计算属性，但不能由存储属性
+ */
+// Enum Methods
+enum Shape{
+    case rectangle
+    case ellipse
+    case diamond
+    func addShape(to p : CGMutablePath,in r : CGRect) -> () {
+        switch self {
+        case .rectangle:
+            p.addRect(r)
+        case .ellipse:
+            p.addEllipse(in: r)
+        case .diamond:
+            p.move(to: CGPoint(x: r.minX, y: r.minY))
+            p.addLine(to: CGPoint(x: r.midX, y: r.minY))
+            p.addLine(to: CGPoint(x: r.maxX, y: r.midY))
+            p.addLine(to: CGPoint(x: r.midX, y: r.maxY))
+            p.closeSubpath()
+        }
+    }
+}
+
+/*
+ An enum instance method that modifies the enum itself
+ must be marked as mutating
+*/
+enum Filter7 : String ,CaseIterable{
+    case albums = "Albums"
+    case playlists = "Playlists"
+    case podcasts = "Podcasts"
+    case books = "Audiobooks"
+
+    mutating func advance(){
+        var ix = Filter7.allCases.firstIndex(of: self)!
+        ix = (ix + 1) % Filter7.allCases.count
+        self = Filter7.allCases[ix]
+    }
+}
+
+var type10 = Filter7.books
+type10.advance()
+print(type10.rawValue)
+
