@@ -418,3 +418,125 @@ var type10 = Filter7.books
 type10.advance()
 print(type10.rawValue)
 
+enum InterfaceMode: Int {
+    case timed = 0
+    case practice = 1
+}
+
+// Structs
+struct Digit3 {
+    var number = 42
+    init(number: Int) {
+        self.number = number
+    }
+}
+// Struct As Namespace
+struct Default {
+    static let rows = "CardMatrixRows"
+    static let columns = "CardMatrixColumns"
+    static let hazyStripy = "HazyStripy"
+}
+print(Default.columns)
+
+// struct Mutating Captured Self is illegal
+struct Digit4 {
+    var number: Int
+    init(number: Int) {
+        self.number = number
+    }
+    
+    mutating func changeNumberTo(_ n : Int){
+        self.number = n
+    }
+    
+    mutating func callAnotherFunction() {
+        otherFunction{
+//            self.changeNumberTo(345)
+        }
+    }
+    func otherFunction(_ f: @escaping ()->()) {
+    
+    }
+}
+
+/*
+ value type:     struct
+ reference type: class
+ */
+
+// Inheritance  Overriding
+class Quadruped {
+    func walk () {
+        print("walk walk walk")
+    }
+}
+
+class Dog5: Quadruped{
+    func bark () {
+        print("woof")
+    }
+}
+
+class NoisyDog: Dog5 {
+    // 函数重载
+    override func bark() {
+        print("woof woof woof")
+    }
+}
+
+// Class Initializers
+/**
+ 够着起分类
+ 1,Designated initializer   默认构造器
+ 2,Convenience initializer  便利构造器
+     增加init的初始化方法
+     必须调用Swift同一个类中的designated初始化完成设置
+     convenience的初始化方法不能被子类重写或者是从子类中以super的方式被调用
+ 3,Implicit initializer     隐式构造器
+ */
+
+class Dog6 {
+    var name : String
+    var license : Int
+    init(name:String, license:Int) {
+        self.name = name
+        self.license = license
+    }
+    convenience init(license: Int) {
+        self.init(name: "Fido", license: license)
+    }
+//    convenience init(){
+//        self.init(license: 1)
+//    }
+}
+
+class NoisyDog2 : Dog6 {
+}
+/**
+下面这段代码是非法的，因为它的父类没有init()构造器
+ */
+//let md3 = NoisyDog2()
+
+// Required initializers 子类必须重载它
+class Dog7 {
+    var name : String
+    required init(name:String) {
+        self.name = name
+    }
+}
+
+class NoisyDog3: Dog7 {
+    var obedient = false
+    init(obedient: Bool) {
+        self.obedient = obedient
+        super.init(name: "andy")
+    }
+    
+    required init(name: String) {
+        super.init(name: name)
+    }
+}
+
+// Class Properties and Methods
+
+
