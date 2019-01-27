@@ -538,5 +538,82 @@ class NoisyDog3: Dog7 {
 }
 
 // Class Properties and Methods
+/**
+ 规则：
+ 1，父类是存储属性，子类计算属性必须有getter和setter 方法
+ 2，父类是计算属性，子类的计算属性至少有一个getter方法
+    1，父类属性有setter方法，子类重载必须要有
+    2，父类属性没有setter方法，子类重载属性可以加上
+ */
 
+/**
+ class/static
+ 方法:等价
+ 属性:相似,但有区别，static修饰的具有储存属性，class修饰具有计算属性
+ 计算属性和方法可以被子类重写
+ */
+class Dog8 {
+    
+//    属性
+    static var whatDogsSayProperty = "woof"
+    class var whatDogsSay2Property: String {
+         return "woof2"
+    }
+//    方法
+    static func whatDogsSay() -> String {
+        return "woof"
+    }
+    class func whatDogsSay2() -> String {
+        return "woof2"
+    }
+    func bark(){
+        print(Dog8.whatDogsSay())
+        print(Dog8.whatDogsSay2())
+    }
+}
+// 子类重写
+class NoisyDog8 : Dog8 {
+    override static var whatDogsSay2Property : String {
+        return "andy"
+    }
+    override class func whatDogsSay2() -> String {
+        return "andy"
+    }
+}
 
+// Polymorphism
+// Casting
+class Dog10 {
+    func bark() {
+        print("woof")
+    }
+}
+
+class NoisyDog10 : Dog10 {
+    override func bark() {
+        super.bark();super.bark()
+    }
+    func beQuiet(){
+        self.bark()
+    }
+}
+
+func tellToHush(_ d: Dog10) {
+//    (d as! NoisyDog10).beQuiet()
+//    安全转换
+    if d is NoisyDog10 {
+        let d2 = d as! NoisyDog10
+        d2.bark()
+    }
+//   第二种方法
+    let noisyMaybe = d as? NoisyDog10
+    if  noisyMaybe != nil{
+        noisyMaybe?.beQuiet()
+    }
+//  最简单的方式是使用可选值链
+    (d as? NoisyDog10)?.beQuiet()
+}
+let md = NoisyDog10()
+tellToHush(md)
+
+// Type Testing and Casting Optionals
