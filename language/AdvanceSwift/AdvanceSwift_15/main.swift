@@ -617,3 +617,55 @@ let md = NoisyDog10()
 tellToHush(md)
 
 // Type Testing and Casting Optionals
+// Bridging to Objective-C
+let s4: NSString = "howdy"
+let s5 = "howdy"
+let s6 : NSString = s5 as NSString
+let i: NSNumber = 1 as NSNumber
+
+let ud = UserDefaults.standard
+let s7 = "howdy"
+ud.set(s7, forKey: "greeting")
+let test = ud.object(forKey: "greeting") as! String
+print(test)
+// Type References
+class Dog11 {
+    class var whatDogsSay : String {
+        return "dog11"
+    }
+    func bark(){
+        print(Dog11.whatDogsSay)
+    }
+    //   Swift.type(of:)方法得到类型,还遵循多态
+    func bark2() {
+        let type_ = Swift.type(of:self)
+        print(type_.whatDogsSay)
+    }
+}
+
+ class NoisyDog11 : Dog11 {
+    override class var whatDogsSay : String {
+        return "NoisyDog11"
+    }
+}
+let md11 = NoisyDog11()
+md11.bark2()
+
+// The Keyword Self
+class Dog12 {
+    var name : String
+    required init(name: String){
+        self.name = name
+    }
+    // 工厂方法
+    class func makeAndName() -> Dog12 {
+        let d = self.init(name: "Fldo")
+        return d
+    }
+//    解决不能返回子类类型，Self只是指代，必须要求一个required init的初始化方法
+    func havePuppy(name: String) -> Self {
+        return Swift.type(of: self).init(name: name)
+    }
+}
+
+// Comparing Types
