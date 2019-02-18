@@ -677,17 +677,14 @@ func dogTypeExpecter(_ whattype:Dog12.Type) -> Bool{
 
 /*
  Summary of Type Terminology
- type(of:) --- 主要用于对象多态 == 比较
- .Type     --- 主要用于实例对台 is 比较
- .self     --- 类型本身
- self      --- 实例
- Self      --- 类型指代，主要用于协议
   type(of:) Applied to an object: the polymorphic (internal) type of the object, regardless of how a reference is typed. Static/class members are accessible by passing an object to type(of:). Usable on the right side of ==.
  .Type Sent to a type in a type declaration: the polymorphic type. For example, in a func‐ tion parameter declaration, Dog means a Dog instance is expected (or an instance of one its subclasses), but Dog.Type means that the Dog type itself is expected (or the type of one of its subclasses). Usable on the right side of is.
  .self Sent to a type: the type. For example, to pass the Dog type where Dog.Type is expected, you can pass Dog.self. Usable on the right side of ==.
  self In instance code, this instance, polymorphically. In static/class code, this type, polymorphically; self.init(...) instantiates the type.
  Self In a method declaration, when specifying the return type, this class or this instance’s class, polymorphically.
- 
+ 中文参考：
+ https://www.jianshu.com/p/36083d0404b9
+
  */
 
 
