@@ -174,4 +174,82 @@ func dogMakerAndNamer<WhatType: Dog>(_ : WhatType.Type) -> WhatType{
     return d
 }
 // Type Constraints
+protocol Flocker {
+    func flockTogetherWith(f:Flier)
+}
 
+struct Bird6:Flier, Flocker{
+    func fly() {}
+    func flockTogetherWith(f: Flier) {}
+}
+
+func myMin<T:Comparable>(_ things:T...) -> T?{
+    guard let first = things.first else{
+        return nil
+    }
+    
+    var mininum = first
+    for item in  things.dropFirst(){
+        if item < mininum{
+            mininum = item
+        }
+    }
+    return mininum
+}
+
+// Explicit Specialization
+protocol Flier7 {
+    associatedtype Other
+}
+struct Bird7: Flier7{
+    typealias Other = String
+}
+
+// Generic object type
+protocol Flier8 {
+    init()
+}
+struct Bird8: Flier8{
+    init(){}
+}
+
+struct FlierMaker<T:Flier8> {
+    static func makeFlier() -> T{
+        return T()
+    }
+}
+
+let f8 = FlierMaker<Bird8>.makeFlier()
+
+// Generic Invariance
+/**
+ a generic type specialized to a subtype is not polymorphic with respect to the same generic type specialized to a supertype
+ 专用于子类型的泛型类型对于专用于超类型的相同泛型类型不是多态的
+ */
+protocol Meower {
+    func meow()
+}
+
+struct Wrapper<T:Meower> {
+    let meower : T
+}
+ class Cat : Meower {
+    func meow() {
+        print("meow")
+    }
+}
+class CalicoCat : Cat {
+}
+
+let w: Wrapper<Cat> = Wrapper(meower: CalicoCat())
+
+// Associated Type Chains
+protocol Fighter {
+    associatedtype Enemy : Fighter
+}
+struct Soldier : Fighter {
+    typealias Enemy = Archer
+}
+struct Archer : Fighter {
+    typealias Enemy = Soldier
+}
