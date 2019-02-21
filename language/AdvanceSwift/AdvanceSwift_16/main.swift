@@ -253,3 +253,114 @@ struct Soldier : Fighter {
 struct Archer : Fighter {
     typealias Enemy = Soldier
 }
+
+protocol Wieldable {
+}
+struct Sword : Wieldable {
+}
+struct Bow : Wieldable {
+}
+
+protocol Fighter2 {
+    associatedtype Enemy : Fighter2
+    associatedtype Weapon : Wieldable
+    func steal(weapon:Self.Enemy.Weapon,form:Self.Enemy)
+}
+struct Soldier2 : Fighter2 {
+    typealias Weapon = Sword
+    typealias Enemy = Archer2
+    func steal(weapon:Bow,form:Archer2){
+    }
+}
+struct Archer2 : Fighter2 {
+    typealias Weapon = Bow
+    typealias Enemy = Soldier2
+    func steal(weapon:Sword,form:Soldier2){
+    }
+}
+// Where Clauses
+protocol Flier9 {
+    associatedtype Other
+}
+struct Bird9: Flier9 {
+    typealias Other = String
+}
+
+struct Insect3 : Flier9 {
+    typealias Other = Bird9
+}
+func flockTogether<T>(_ f: T)where T:Flier9,T.Other:Equatable{
+    
+}
+
+// Extensions
+/**
+ 原则:
+ 1,可以重写一个存在的成员，但不能重载一个存在的方法
+ 2,不能定义存储属性，只能定义计算属性
+ 3,类不能定义指定构造器和析构，但可以定义方便构造器
+ */
+extension CGRect{
+    var center: CGPoint {
+        return CGPoint(x: self.midX, y: self.midY)
+    }
+}
+
+extension String {
+    func range(_ start:Int,_ count: Int) -> Range<String.Index> {
+        let i = self.index(start >= 0 ?
+            self.startIndex:
+            self.endIndex, offsetBy: start)
+        //  这里需要注意count是否越界
+        let j = self.index(i, offsetBy: count)
+        return i..<j
+    }
+}
+
+// Extending Protocols
+// Extending Generics
+class Dog2<T> {
+    var name: T?
+}
+extension Dog2 {
+    func sayYourName() -> T?{
+        return self.name
+    }
+}
+
+extension Array where Element:Comparable{
+    func myMin() -> Element? {
+        var minnum = self.first
+        for item in self.dropFirst() {
+            if item < minnum! {
+                minnum = item
+            }
+        }
+        return minnum
+    }
+}
+
+// Starting in Swift 4.1 我们可以直接比较两个数组
+let arr1 = [1,2,3]
+let arr2 = [1,2,3]
+if arr1 == arr2 {
+    print("arr1 = arr2 ")
+}
+
+// Umbrella Types
+/**
+ Any:任何类型
+ AnyObject:任何类
+ */
+func anyExpecter(_ a:Any) {}
+anyExpecter("howdy")            // a struct instance
+anyExpecter(String.self)        // a struct type
+anyExpecter(Dog(name: "andy"))  // a class instance
+anyExpecter(Dog.self)           // a class type
+anyExpecter(anyExpecter)        // a function
+let ud = UserDefaults.standard
+ud.set(Date(), forKey: "now")
+let d = ud.object(forKey: "now")
+if d is Date {
+    print(d!)
+}
