@@ -350,7 +350,10 @@ if arr1 == arr2 {
 // Umbrella Types
 /**
  Any:任何类型
- AnyObject:任何类
+ AnyObject:任何类 all class type
+ AnyClass: is the type of AnyObject
+ 
+ === 和 !== 去判断 检测指针地址是否相等
  */
 func anyExpecter(_ a:Any) {}
 anyExpecter("howdy")            // a struct instance
@@ -364,3 +367,110 @@ let d = ud.object(forKey: "now")
 if d is Date {
     print(d!)
 }
+
+let d4 = Dog(name: "andy")
+let anys : AnyObject = d4
+let d5 = anys as! Dog
+
+class Dog5 {
+    @objc var noise: String = "woof"
+    @objc func bark() -> String {
+        return "woof"
+    }
+    @objc static var whatADogSays : String = "woof"
+}
+class Cat5 {}
+
+let c5: AnyObject = Cat5()
+/* Dog属性噪声和Dog方法bark被标记为@objc，
+   因此它们作为发送给AnyObject的潜在消息是可见的。
+ */
+let s5 = c5.noise
+
+// class var layerClss: AnyClass {get}
+let c6: AnyClass = Cat5.self
+let s6 = c6.whatADogSays
+
+// Collection Types
+/**
+ Array: a struct
+    Array(1...3) generates the array of Int [1,2,3].
+    Array("hey") generates the array of Character ["h","e","y"].
+    Array(d), where d is a Dictionary, generates an array of tuples of the key–value pairs of d.
+     ArraySlice: is not a new array; it’s just a way of pointing into a section of the original array
+ */
+// 创建一个空数组
+var arr = [Int]()
+var arr_: [Int] = []
+
+let arr_1: [Any] = [1,"andy"]
+
+let strings:[String?] = Array(repeating: nil, count: 100)
+// 以下需要注意,创建的是3个Dog的引用数组
+let dogs = Array(repeating:Dog(name: "andy"), count:3)
+// Array comparison
+let i1 = 1
+let i2 = 2
+let i3 = 3
+let arr_i : [Int] = [1,2,3]
+if arr_i == [i1,i2,i3] {
+    print("they are equal")
+}
+// ArraySlice
+let arr_2 = ["manny", "moe", "jack"]
+let slice = arr_2[1...2]
+print(slice)
+let arr_3 = Array(slice)
+print(arr_3[1])
+
+var arr_4 = [1,2,3]
+arr_4[1] = 4
+print(arr_4)
+arr_4[1..<2] = [7,8]
+print(arr_4)
+print(arr_4[1...])
+print(arr_4[...2])
+
+// Nested arrays 2纬数组
+let arr_5 = [[1,2,3], [4,5,6], [7,8,9]]
+let i_j = arr_5[1][1]
+print(i_j)
+
+// Basic array properties and methods
+var arr_6 = [1,2,3,4,5,6,7,8]
+// 后几个元素
+let slice_6 = arr_6.suffix(2)
+print(slice_6)
+print(arr_6.suffix(15))
+let slice_7 = arr_6.suffix(from: 5)
+print(slice_7)
+let slice_8 = arr_6.prefix(upTo: 4)
+print(slice_8)
+
+let ok = arr_6.contains(7)
+print(ok)
+
+let ok_2 = arr_6.starts(with: [1,2])
+print(ok_2)
+let ok_3 = arr_6.starts(with: [1,-2]) { abs($0) == abs($1)}
+print(ok_3)
+
+// 最大，最小
+print(arr_6.min()!)
+print(arr_6.max()!)
+// 向数组中添加元素
+arr_6.append(4)
+print(arr_6)
+arr_6.append(contentsOf: [5,6])
+print(arr_6)
+// append == + operator
+let arr_7 = arr_6 + [4]
+print(arr_7)
+
+// insert remove dropFirst ...
+let arr_8 = [[1,2], [3,4], [5,6]]
+let joined = Array(arr_8.joined(separator: [10,11]))
+print(joined)
+//joined() 表示不需要分割
+let joined_2 = Array(arr_8.joined())
+print(joined_2)
