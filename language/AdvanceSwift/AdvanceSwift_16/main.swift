@@ -474,3 +474,68 @@ print(joined)
 //joined() 表示不需要分割
 let joined_2 = Array(arr_8.joined())
 print(joined_2)
+
+// split
+let arr_9 = [1,2,3,4,5,6]
+let arr_10 = arr_9.split { $0 % 2 == 0}
+print(arr_10)// [[1],[3],[5]]
+
+// sort
+var arr_11 = [10,9,7,2,30,5]
+arr_11.sort()
+print(arr_11)
+//print(arr_11.sort(by: { $0 > $1 }))
+
+// swapAt
+arr_11.swapAt(0, 2)
+print(arr_11)
+
+// Array enumeration and transformation
+var pepboys = ["Manny", "Moe", "Jack"]
+for pepboy in pepboys {
+    print(pepboy)
+}
+
+pepboys.forEach {print($0)}
+
+// 如果你需要数组的下标可以如下使用 for in
+for (ix,pepboy) in pepboys.enumerated() {
+    print("\(ix) is \(pepboy)")
+}
+pepboys.enumerated().forEach {
+    print("Pep boy\($0.offset) is \($0.element)")
+}
+
+// allSatisfy
+let ok2 = pepboys.allSatisfy {$0.hasPrefix("M")}
+print(ok2)
+
+// filter
+let pepboys2 = pepboys.filter {$0.hasPrefix("M")}
+print(pepboys2)
+
+// removeAll
+pepboys.removeAll {$0.hasPrefix("M")}
+print(pepboys)
+
+// map
+let arr_12 = [1,2,3]
+let arr_13 = arr_12.map { Double($0)}
+print(arr_13)
+
+// flatMap 可以降维
+let arr_14 = [[1, 2], [3, 4]]
+let arr_15 = arr_14.flatMap { $0.map{String($0)}}
+print(arr_15)
+
+// compactMap safely unwraps them by first eliminating any nil ele‐ ments
+// 过滤 nil 元素
+let arr_16 = ["1", "hey", "2", "ho"]
+let arr_17 = arr_16.compactMap { Int($0)}
+print(arr_17)
+
+// reduce
+let arr_18 = [1, 4, 9, 13, 112]
+let sum = arr_18.reduce(0) { $0 + $1}
+let sum2 = arr_18.reduce(0,+)
+print(sum)
