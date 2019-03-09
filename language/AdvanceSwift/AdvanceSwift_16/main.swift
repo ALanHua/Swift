@@ -539,3 +539,36 @@ let arr_18 = [1, 4, 9, 13, 112]
 let sum = arr_18.reduce(0) { $0 + $1}
 let sum2 = arr_18.reduce(0,+)
 print(sum)
+
+// reduce into
+let nums = [1,3,2,4,5]
+let result = nums.reduce(into: [[],[]]) { (temp, i) in
+    temp[i % 2].append(i)
+}
+print(result)
+
+let arr_19 = [["Manny", "Moe", "Jack"], ["Harpo", "Chico", "Groucho"]]
+let target = "m"
+let arr_20 = arr_19.map {
+    $0.filter({
+        /**
+         caseInsensitive: 不区分大小写
+        */
+        let found = $0.range(of: target, options: .caseInsensitive)
+        return (found != nil)
+    })
+}.filter { $0.count > 0}
+print(arr_20)
+
+// Swift Array and Objective-C NSArray
+let arr_21 = ["Manny", "Moe", "Jack"]
+// componentsJoined 方法是将数组转换成字符串
+let s_21 = (arr_21 as NSArray).componentsJoined(by: ",")
+print(s_21)
+
+var arr_22 = ["Manny", "Moe", "Jack"]
+let arr_23 = NSMutableArray(array: arr_22)
+arr_23.remove("Moe")
+arr_22 = arr_23 as! [String]
+print(arr_22)
+
