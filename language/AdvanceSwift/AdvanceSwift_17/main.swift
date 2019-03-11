@@ -95,3 +95,92 @@ let d_15 = d_11.merging(d_13) { (orig,_) in orig}
 print(d_15)
 
 // Swift Dictionary and Objective-C NSDictionary
+// Set
+struct Person: Hashable {
+    let firstName : String
+    let lastName : String
+}
+
+let set: Set<Int> = [1,2,3,4,5]
+let set2 = Set(set.map{ $0 + 1})
+print(set2)
+let set3 = set.filter { $0 > 3}
+print(set3)
+/**
+ 集合间的操作
+*/
+var setA: Set<String> = ["Swift","Object-C"]
+var setB: Set<String> = ["HTML","CSS","JS"]
+var setC = Set(["Swift","HTML","CSS"])
+var setD: Set<String> = ["Swift"]
+/*
+ 并集操作:
+     union()     不影响源有集合
+     formUnion() 影响源有集合
+ */
+let set4 = setA.union(setB) // 创建新集合
+print(setA)
+setA.formUnion(setB)
+print(setA)
+/*
+ 集合的交集操作
+     intersection()      不影响源有集合
+     formIntersection()  影响源有集合
+ */
+let set5 = setA.intersection(setC)
+print(setA)
+setA.formIntersection(setC)
+print(setA)
+/*
+ 集合的差集操作
+ 名词说明: 差集就是说两个集合中一个集合有，但另一个集合里没有
+    subtracting      不影响源有集合
+    subtract         影响源有集合
+ */
+let set6 = setB.subtracting(setC)
+print(setB)
+setB.subtract(setC)
+print(setB)
+
+/**
+ 集合的抑或操作
+     就是在一个集合中但不在两个集合中的值创建一个新的集合
+     symmetricDifference()      不影响源有集合
+     formSymmetricDifference()   影响源有集合
+ */
+let set7 = setC.symmetricDifference(setD)
+print(setC)
+setC.formSymmetricDifference(setD)
+print(setC)
+/**
+ 集合的子集、真子集判断
+    isSubset        判断一个集合中的值是否也被包含在另外一个集合中。
+    isStrictSubset  判断一个集合是否是另外一个集合的子集合，并且两个集合并不相等
+ */
+var result = setD.isSubset(of: setA)
+print("setD\(setD),setA\(setA)")
+print(result)
+result = setD.isStrictSubset(of: setA)
+print(result)
+
+/*
+ 集合的超集、超子集判断
+    isSuperset
+    isStrictSuperset
+ */
+result = setA.isSuperset(of: setD)
+print("setA\(setA),setD\(setD)")
+print(result)
+result = setA.isStrictSuperset(of: setD)
+print(result)
+
+/**
+ 集合的相离判断
+    判断两个集合毫无相同的元素
+    isDisjoint
+ */
+result = setA.isDisjoint(with: setB)
+print("setA\(setA),setB\(setB)")
+print(result)
+
+
