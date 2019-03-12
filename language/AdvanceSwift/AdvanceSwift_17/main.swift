@@ -183,4 +183,119 @@ result = setA.isDisjoint(with: setB)
 print("setA\(setA),setB\(setB)")
 print(result)
 
+//  Option sets
+// Flow Control and More
+var i = 10
+switch i {
+case 1:
+    print("You have 1 thingy!")
+case 2...10:
+    print("You have \(i) thingies!")
+default:
+    print("You have more thingies than I can count!")
+}
+
+// Optional
+let i1 : Int? = 2
+switch i1 {
+case 1?:
+     print("You have 1 thingy!")
+case let n?:
+    print("You have \(n) thingies!")
+case nil:break
+}
+
+func position(for bar: String) -> String {
+    switch true {
+    case bar == "123":
+        return "你好"
+    default:
+        return "什么都没有"
+    }
+}
+switch i {
+case let j where j < 0:
+    print("i is negative")
+case let j where j > 0:
+    print("i is positive")
+case 0:
+     print("i is 0")
+default:break
+}
+// 同上
+switch i {
+case ..<0:
+    print("i is negative")
+case 1...:
+    print("i is positive")
+case 0:
+    print("i is 0")
+default:break
+}
+
+let dict : [String:Any] = ["size":1,"desc":"apple"]
+
+switch (dict["size"], dict["desc"]){
+case let (size as Int,desc as String):
+     print("You have size \(size) and it is \(desc)")
+default:break
+}
+
+enum Filter {
+    case albums
+    case playlists
+    case podcasts
+    case books
+}
+
+let type = Filter.albums
+switch type {
+case .albums:
+    print("Albums")
+case .playlists:
+    print("playlists")
+case .podcasts:
+    print("podcasts")
+case .books:
+    print("books")
+}
+
+// extract an associated value from an enum case.
+enum MyError {
+    case number(Int)
+    case message(String)
+    case fatal
+}
+
+let err = MyError.number(20)
+
+switch err {
+case .number(let theNumber):
+    print("It is a number: \(theNumber)")
+case let .message(theMessage):
+    print("It is a message: \(theMessage)")
+case .fatal:
+    print("It is fatal")
+}
+// To combine switch case tests (with an implicit logical-or), separate them with a comma
+switch i {
+case 1,3,5,7,9:
+    print("You have a small odd number of thingies.")
+case 2,4,6,8,10:
+    print("You have a small even number of thingies.")
+default:
+    print("You have too many thingies for me to count.")
+}
+// fallthrough
+let pep = "Manny"
+switch pep{
+case "Manny":fallthrough
+case "Moe":fallthrough
+case "Jack":
+    print("\(pep) is a Pep boy")
+default:
+    print("I don't know who \(pep) is")
+}
+
+// if case
 
