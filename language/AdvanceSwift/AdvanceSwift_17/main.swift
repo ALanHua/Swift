@@ -298,4 +298,77 @@ default:
 }
 
 // if case
+let n = -1
+if case let MyError.number(n) = err {
+     print("The error number is \(n)")
+}
+
+if case let .number(n) = err,n < 0 {
+    print("The negative error number is \(n)")
+}
+
+// Conditional evaluation
+let title: String = {
+    switch type {
+    case .albums:
+         return "Albums"
+    case .playlists:
+        return "Playlists"
+    case .podcasts:
+        return "Podcasts"
+    case .books:
+        return "Books"
+    }
+}()
+
+print(title)
+// ?? 运算 / ? : 运算
+
+// loop
+let arr_3 : [MyError] = [
+    .message("ouch"), .message("yipes"), .number(10), .number(-1), .fatal
+]
+
+var i_3 = 0
+
+while case let .message(message) = arr_3[i_3] {
+    print(message)
+    i_3 += 1
+}
+
+// For loops
+for i in 1...5 {
+    print(i)
+}
+
+var g = (1...5).makeIterator()
+while let i = g.next() {
+     print("makeIterator \(i)")
+}
+
+for case let .number(i) in arr_3 {
+    print("err \(i)")
+}
+
+// sequence
+let seq = sequence(first: 1) { $0 >= 10 ? nil : $0 + 1}
+for i in seq {
+     print("seq \(i)")
+}
+
+let seq_2 = sequence(first: 1) {$0 + 1}
+for i in seq_2.prefix(5) {
+    print("seq_2 \(i)")
+}
+
+let fib = sequence(state: (0,1)) { (pair:inout (Int,Int)) -> Int in
+    let n = pair.0 + pair.1
+    pair = (pair.1,n)
+    return n
+}
+
+for i in fib.prefix(10) {
+    print("fib \(i)")
+}
+
 
