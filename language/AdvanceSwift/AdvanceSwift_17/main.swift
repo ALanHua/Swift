@@ -371,4 +371,159 @@ for i in fib.prefix(10) {
     print("fib \(i)")
 }
 
+// Jumping
+struct Primes {
+    static var primes = [2]
+    static func appendNextPrime() {
+        next: for i in (primes.last!+1)... {
+            // squareRoot 返回数据的平方根
+            let sqrt = Int(Double(i).squareRoot())
+            for prime in primes.lazy.prefix(while:{$0 <= sqrt}) {
+                if i % prime == 0 {
+                    continue next
+                }
+            }
+            primes.append(i)
+            return
+        }
+    }
+}
+Primes.appendNextPrime()
+print(Primes.primes)
+
+//  Error
+enum MyFirstError : Error {
+    case firstMinorMistake
+    case firstMajorMistake
+    case firstFatalMistake
+}
+
+enum MySecondError : Error{
+    case secondMinorMistake(i:Int)
+    case secondMajorMistake(s:String)
+    case secondFatalMistake
+}
+
+func giveMeALongString(_ s:String) throws{
+    if s.count < 5 {
+        throw MyFirstError.firstMinorMistake
+    }
+    print("thanks for the string")
+}
+
+do {
+    try giveMeALongString("andy ni hao")
+}catch MyFirstError.firstMinorMistake {
+    
+}catch let err as MyFirstError {
+    print(err)
+}catch MySecondError.secondMinorMistake(let i) where i < 0 {
+    
+}catch {
+    
+}
+
+// Rethrows
+func receiveThrower(_ f:(String) throws ->()) rethrows {
+    try f("ok?")
+}
+
+func callReceiveThrower() {
+    receiveThrower{ s in
+        print("yhanks for the string \(s)")
+    }
+}
+
+// Defer statement
+// Aborting the whole program
+// Guard
+// Privacy
+/**
+ Swift has five levels of privacy:
+ internal:      同一module可访问 默认级别
+ fileprivate:   当前文件可以被访问
+ private:       当前作用域l可访问
+ public:        其他module可以被访问 不可用被继承的重写
+ open:          其他module可以被访问,可以被继承和重写
+ */
+
+// introspection
+class Dog: CustomStringConvertible,CustomReflectable{
+    var name: String
+    var license: Int
+    init(name: String = "Fido",license: Int = 1) {
+        self.name = name
+        self.license = license
+    }
+    var customMirror: Mirror {
+        let children : [Mirror.Child] = [
+            ("ineffable name", self.name),
+            ("license to kill", self.license)
+        ]
+        let m = Mirror(self, children: children)
+        return m
+    }
+    
+    var description: String {
+        var desc = "Dog ("
+        let mirror = Mirror(reflecting: self)
+        for (k,v) in  mirror.children{
+            desc.append("\(k!):\(v), ")
+        }
+        return desc.dropLast(2) + ")"
+    }
+}
+
+let dog = Dog(name: "andy", license: 4)
+print(dog)
+
+// Operators
+/**
+ infix:
+ prefix:
+ postfix:
+ */
+struct Vial {
+    var numberOfBacteria:Int
+    init(_ n : Int) {
+        self.numberOfBacteria = n
+    }
+}
+extension Vial {
+    static func +(lhs:Vial,rhs:Vial) ->Vial {
+        let total = lhs.numberOfBacteria + rhs.numberOfBacteria
+        return Vial(total)
+    }
+}
+
+let v1 = Vial(500_000)
+let v2 = Vial(400_000)
+let v3 = v1 + v2
+print(v3.numberOfBacteria)
+
+extension Vial {
+    static func += (lhs:inout Vial,rhs:Vial) {
+        let total = lhs.numberOfBacteria + rhs.numberOfBacteria
+        lhs.numberOfBacteria = total
+    }
+}
+var v4 = Vial(500_000)
+v4 += v2
+print(v4.numberOfBacteria)
+
+infix operator ^^
+extension Int {
+    static func ^^(lhs:Int, rhs:Int) -> Int{
+        var result = lhs
+        for _ in 1..<rhs {
+            result *= lhs
+        }
+        return result
+    }
+}
+
+print(2^^2)
+print(2^^3)
+print(3^^3)
+
 
