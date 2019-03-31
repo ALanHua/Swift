@@ -483,6 +483,21 @@ print(dog)
  prefix:
  postfix:
  */
+// Void
+struct Wrapper<Value> {
+    let value: Value
+}
+extension Wrapper : Equatable where Value : Equatable {
+    static func == (lhs: Wrapper<Value>, rhs: Wrapper<Value>) -> Bool{
+        return lhs.value == rhs.value
+    }
+}
+
+// 实现一个接受 Wrapper<Void> 参数的 == 全局函数
+func ==(lhs: Wrapper<Void>, rhs: Wrapper<Void>) -> Bool {
+    return true
+}
+
 struct Vial {
     var numberOfBacteria:Int
     init(_ n : Int) {
@@ -526,4 +541,174 @@ print(2^^2)
 print(2^^3)
 print(3^^3)
 
+infix operator >>> : RangeFormationPrecedence
+func >>><Bound>(maxnum:Bound,minnum:Bound)
+    -> ReversedCollection<Range<Bound>> where Bound: Strideable{
+    return (minnum..<maxnum).reversed()
+}
 
+let r1 = 1..<10
+let r2 = 10>>>1
+print("-----------")
+print(r1)
+print(r1)
+
+// Synthesized Protocol Implementations
+struct Vial2 {
+    var numberOfBacteria : Int
+    init(_ n: Int) {
+        self.numberOfBacteria = n
+    }
+}
+
+extension Vial2: Equatable {
+    static func ==(lhs:Vial2, rhs:Vial2) -> Bool {
+        return lhs.numberOfBacteria == rhs.numberOfBacteria
+    }
+}
+// 简单写法 swift会自动帮我们转换生成上面的代码
+/**
+ 注意点:
+ 1,Our object type is a struct or an enum
+ 2,We have adopted Equatable, not in an extension.
+ 3,We have not supplied the implementation of the == operator required by Equata‐ ble
+ 4,We have not supplied the implementation of the == operator required by Equata‐ ble
+ */
+struct Vial3 : Equatable{
+    var numberOfBacteria : Int
+    init(_ n: Int) {
+        self.numberOfBacteria = n
+    }
+}
+
+let v5 = Vial2(500_000)
+let v6 = Vial2(400_000)
+let arr6 = [v5,v6]
+let ix = arr6.firstIndex(of: v5)
+print(ix!)
+
+enum MyError2: Equatable {
+    case number(Int)
+    case message(String)
+    case fatal
+}
+
+let err1 = MyError2.number(1)
+let err2 = MyError2.number(1)
+if err1 == err2 {
+    print("err1 == err2")
+}
+
+struct Dog10: Hashable {
+    let name : String
+    let license : Int
+    
+    static func == (lhs:Dog10,rhs:Dog10) -> Bool{
+        return lhs.name == rhs.name && lhs.license == rhs.license
+    }
+    
+    func hash(into hasher:inout Hasher) {
+        name.hash(into: &hasher)
+        license.hash(into: &hasher)
+    }
+    
+}
+// Key Paths
+// Dynamic Member Lookup
+@dynamicMemberLookup
+struct Flock {
+    var d = [String:String]()
+    subscript(dynamicMember s : String) -> String?{
+        get {
+            return d[s]
+        }
+        
+        set{
+            d[s] = newValue
+        }
+    }
+}
+var flock = Flock()
+flock.chicken = "peep"
+flock.partridge = "covey"
+if let s = flock.partridge {
+    print(s)
+}
+
+// Memory Management
+// Memory Management of Reference Types
+func testRetainCycle() {
+    class Dog {
+        deinit {
+            print("farewell from Dog")
+        }
+    }
+    class Cat {
+        deinit {
+            print("farewell from Cat")
+        }
+    }
+    let _ = Dog()
+    let _ = Cat()
+}
+testRetainCycle()
+// Weak references 解决循环引用
+func testRetainCycle2() {
+    class Dog {
+        weak var cat: Cat?
+        deinit {
+            print("farewell from Dog")
+        }
+    }
+    class Cat {
+        weak var dog: Dog?
+        deinit {
+            print("farewell from Cat")
+        }
+    }
+    let d = Dog()
+    let c = Cat()
+    d.cat = c
+    c.dog = d
+}
+testRetainCycle2()
+// Unowned references
+// unowned reference is that it doesn’t have to be an Optional
+func testUnowned() {
+    class Boy {
+        var dog : Dog?
+        deinit {
+            print("farewell from Boy")
+        }
+    }
+    class Dog {
+        unowned let boy : Boy
+        init(boy:Boy) { self.boy = boy }
+        deinit {
+            print("farewell from Dog")
+        }
+    }
+    
+    let b = Boy()
+    let d = Dog(boy: b)
+    b.dog = d
+}
+testUnowned()
+// Stored anonymous functions
+class FunctionHolder {
+    var function: (()->())?
+    deinit {
+        print("farewell from FunctionHolder")
+    }
+}
+func testFunctionHolder() {
+    let fh = FunctionHolder()
+    fh.function = {
+        [weak fh] in
+        guard let fh = fh else {
+            return
+        }
+        print(fh)
+    }
+}
+testFunctionHolder()
