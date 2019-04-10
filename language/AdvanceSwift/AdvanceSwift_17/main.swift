@@ -712,3 +712,12 @@ func testFunctionHolder() {
     }
 }
 testFunctionHolder()
+// Exclusive Access to Value Types
+// inout 关键字的使用
+var components = Array(repeating: CGFloat(0), count: 4)
+components.withUnsafeBufferPointer { ptr -> () in
+    for elem in ptr {
+        print(elem)
+    }
+}
+
