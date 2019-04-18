@@ -721,3 +721,55 @@ components.withUnsafeBufferPointer { ptr -> () in
     }
 }
 
+// @NSCopying 案例 @NSCopying在 Swift 中的使用场景都是放在调用 Objective-C 中的类型时候使用。自定义类去遵循NSCopying协议，不太符合 Swift 的类型体系
+class Foo: NSObject,NSCopying {
+    var bar = "bar"
+    var baz = 1
+    func copy(with zone: NSZone? = nil) -> Any {
+        let copy = Foo()
+        print("copyed")
+        copy.bar = bar
+        copy.baz = baz
+        return copy
+    }
+}
+
+class Test: NSObject {
+    @NSCopying  var foo: Foo
+    init(foo:Foo) {
+        self.foo = foo
+        super.init()
+    }
+}
+
+var initialFoo = Foo()
+initialFoo.bar = "initial"
+initialFoo.baz = 1
+
+let test = Test(foo: initialFoo)
+print(test.foo.bar)
+print(test.foo.baz)
+var readFoo = Foo()
+readFoo.bar = "new"
+readFoo.baz = 0
+test.foo = readFoo
+print(test.foo == readFoo)
+print(initialFoo == readFoo)
+print(test.foo.bar)
+print(test.foo.baz)
+
+// 宁外一个例子
+class StringDrawer {
+    @NSCopying var attributedString : NSAttributedString!
+    private var mutableAttributedString : NSMutableAttributedString! {
+        get{
+            if self.attributedString == nil {
+                return nil
+            }
+            return NSMutableAttributedString(attributedString: self.attributedString)
+        }
+        set{
+            self.attributedString = newValue
+        }
+    }
+}
