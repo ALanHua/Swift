@@ -773,3 +773,40 @@ class StringDrawer {
         }
     }
 }
+
+enum Result<Value,Error> {
+    case success(Value)
+    case failure(Error)
+}
+
+extension Result where Value == Void{
+    static var success:Result{
+        return .success(())
+    }
+}
+
+// Never 是一种无人居住的类型
+func fetch(_ request:URLRequest,completion:
+    (Result<(URLResponse, Data), Error>) -> Void){
+    // ...
+}
+let request = URLRequest(url: URL(fileURLWithPath: "xxxx"))
+fetch(request){ result in
+    switch result {
+    case let .success(response, _):
+        print("Success: \(response)")
+    case .failure(let error):
+        print("Failure: \(error)")
+    }
+}
+
+func alwaysSucceeds(_ completion: (Result<String,Never>) -> Void){
+    completion(.success("yes!"))
+}
+// 通过指定Never结果的Error类型，我们使用类型系统来表示失败不是一种选择
+alwaysSucceeds{(result) in
+    switch result{
+    case .success(let string):
+        print(string)
+    }
+}
